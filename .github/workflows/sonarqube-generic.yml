@@ -1,0 +1,29 @@
+# This workflow calls a Reusable Workflow which scans a Generic project with SonarQube
+# The Reusable Workflow can be found here:
+# https://github.com/SnowSoftwareGlobal/devops-workflow-sonarqube-generic
+# Usage and requirements for using the workflow can be found here:
+# https://github.com/SnowSoftwareGlobal/devops-workflow-sonarqube-generic/blob/main/README.md#usage
+
+# This defines when the GitHub Action will be triggered (https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
+# The below essentially means, on every Pull Request, and on merges to the default branch (feel free to remove the branches below that you don't use, and keep only main for example)
+# To be clear, you are able to change this if you'd like, this is just the recommendation from us. This will make sure every PR is scanned with SonarQube
+on:
+  pull_request: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request 
+    types: [opened, synchronize, reopened]
+  push: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
+    branches: # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-only-when-a-push-to-specific-branches-occurs
+      - 'main'
+      - 'master'
+      - 'develop'
+      - 'release'
+
+name: SonarQube Scan - Generic
+jobs:
+  sonarqube-scan:
+    uses: SnowSoftwareGlobal/devops-workflow-sonarqube-generic/.github/workflows/sonarqube-generic.yml@v1 
+    secrets: inherit # pass all secrets (https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-inputs-and-secrets-in-a-reusable-workflow)
+    # There are some custom inputs you can use, uncomment the lines below to use them
+    # with:
+      # If the project is located somewhere other than the root directory, spec it here
+      # Default: '.'
+      # project-path: '' 

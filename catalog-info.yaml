@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: agent-configuration-templates-public
+  annotations:
+    github.com/project-slug: SnowSoftwareGlobal/agent-configuration-templates-public
+    devops.io/handled-by: repo-as-code
+    devops.io/version: v1
+    sonarqube.org/project-key: agent-configuration-templates-public
+    circleci.com/project-slug: github/SnowSoftwareGlobal/agent-configuration-templates-public
+  tags:
+    - cloud
+    - agent
+spec:
+  type: service
+  lifecycle: unknown
+  owner: default/az-ug-github-agent
