@@ -39,10 +39,12 @@ Here you can find the latest templates for the Snow Inventory Agent.
 1. fill all relevant information into the configuration file  
 1. if you need to generate configuration with passwords, you NEED to use the Snow Inventory Admin Console tor reach out to Snow Support.  
 1. (they will be encrypted and the Admin Console is the only tool available for that)  
-1. remove the unused/empty sections (usually you don't want to have `<tags>` open and closed without content)  
+1. remove the unused/empty sections (usually you don't want to have &lt;tags&gt; open and closed without content)  
 1. check the commented sections, remove comments where appropriate to enable that section of the configuration, add comments to disable it. Settings not defined in the configuration file will result in default described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-c54938ea-877f-3e63-7948-57b1e654802f.html) or (default behaviour)[#Default-behaviour] beeing applied  
 1. xml does not allow nested comments
-1. xml is case sensitive (`<Oracle>` is **NOT** the same as `<oracle>`)  
+1. xml is case sensitive (`<Oracle>` is **NOT** the same as `<oracle>`)
+
+If you want to contribute or suggest a change, create an idea on our [ideas portal](https://ideas.snowsoftware.com).  
 
 When the configuration is ready, you can use it on your own in the [Package Builder on Snow Atlas](https://docs.snowsoftware.com/snow-atlas/en/UUID-7a0f8e25-6f02-b787-057d-ddf03c886e9c.html) or send it to our [Snow Support Hub](https://community.snowsoftware.com/s/support-hub) to get the latest Snow Inventory Agent.
 
@@ -56,7 +58,6 @@ Every Snow Inventory Agents has a default behavior depending on the platform. If
 ### Windows
 
 <details>
-
 <summary>&lt;Registry&gt;</summary>
 
 Please use the "Collect custom registry keys" Scanning Module referenced in [Snow Docs: Package Builder - Scanning Modules](https://docs.snowsoftware.com/snow-atlas/en/UUID-fbea6041-f6ea-480b-2b10-292936b39f46.html#UUID-fbea6041-f6ea-480b-2b10-292936b39f46_section-idm423333219851216) instead of adding additional registry queries. Otherwise you will lose
@@ -71,7 +72,6 @@ and you would need to keep them updated manually.
 </details>
 
 <details>
-
 <summary>&lt;SystemSettings&gt;</summary>
 
 ```xml
