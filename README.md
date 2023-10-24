@@ -29,7 +29,7 @@ Here you can find the latest templates for the Snow Inventory Agent.
 - [MacOs](/macos/snowagent.config)
 - [Unix](/unix/snowagent.config)
 - [AIX](/unix/AIX/snowagent.config)
-- [HPUX](/unix/HPUX/snowagent.config)
+- [HP-UX](/unix/HPUX/snowagent.config)
 - [Solaris](/unix/Solaris/snowagent.config)
 
 ## How to use these templates
@@ -40,7 +40,7 @@ Here you can find the latest templates for the Snow Inventory Agent.
 1. if you need to generate configuration with passwords, you NEED to use the Snow Inventory Admin Console tor reach out to Snow Support.  
 1. (they will be encrypted and the Admin Console is the only tool available for that)  
 1. remove the unused/empty sections (usually you don't want to have &lt;tags&gt; open and closed without content)  
-1. check the commented sections, remove comments where appropriate to enable that section of the configuration, add comments to disable it. Settings not defined in the configuration file will result in default described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-c54938ea-877f-3e63-7948-57b1e654802f.html) or (default behaviour)[#Default-behaviour] beeing applied  
+1. check the commented sections, remove comments where appropriate to enable that section of the configuration, add comments to disable it. Settings not defined in the configuration file will result in default described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-c54938ea-877f-3e63-7948-57b1e654802f.html) or [default behaviour](#Default-behaviour) beeing applied  
 1. xml does not allow nested comments
 1. xml is case sensitive (`<Oracle>` is **NOT** the same as `<oracle>`)
 
