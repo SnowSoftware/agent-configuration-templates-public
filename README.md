@@ -59,12 +59,14 @@ Every Snow Inventory Agents has a default behavior depending on the platform. If
 
 <summary>&lt;Registry&gt;</summary>
 
-Please use the "Collect custom registry keys" Scanning Module referenced in [Snow Docs: Package Builder - Scanning Modules](https://docs.snowsoftware.com/snow-atlas/en/UUID-fbea6041-f6ea-480b-2b10-292936b39f46.html#UUID-fbea6041-f6ea-480b-2b10-292936b39f46_section-idm423333219851216) instead of adding additional registry queries. You will lose:
+Please use the "Collect custom registry keys" Scanning Module referenced in [Snow Docs: Package Builder - Scanning Modules](https://docs.snowsoftware.com/snow-atlas/en/UUID-fbea6041-f6ea-480b-2b10-292936b39f46.html#UUID-fbea6041-f6ea-480b-2b10-292936b39f46_section-idm423333219851216) instead of adding additional registry queries. Otherwise you will lose
 
 - SQL Server details
 - Exchange Server details
 - Windows Clustering details
 - Virtual Machine details
+
+and you would need to keep them updated manually.
 
 </details>
 
@@ -157,7 +159,6 @@ To get the latest list of excluded files ystems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-
 <summary>&lt;SystemSettings&gt;</summary>
 
 ```xml
@@ -176,7 +177,6 @@ To get the latest list of excluded files ystems, check [Snow Docs: Snow Inventor
 ### MacOs
 
 <details>
-
 <summary>&lt;Software&gt;&lt;Exclude&gt;&lt;FileSystem&gt;</summary>
 
 To get the latest list of excluded file systems, check [Snow Docs: Snow Inventory Agent for MacOs - File system types not scanned by the Agent](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-8adaed67-35d2-c537-46a5-f809fab188b7.html#UUID-8adaed67-35d2-c537-46a5-f809fab188b7_section-idm4555670506516832575095009411).
@@ -200,7 +200,6 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-
 <summary>&lt;SystemSettings&gt;</summary>
 
 ```xml
@@ -220,7 +219,6 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 ### Unix
 
 <details>
-
 <summary>&lt;Software&gt;&lt;IncludeCriteria&gt;</summary>
 
 ```xml
@@ -238,7 +236,6 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-
 <summary>&lt;Software&gt;&lt;Exclude&gt;</summary>
 
 ```xml
@@ -292,7 +289,6 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-
 <summary>&lt;SystemSettings&gt;</summary>
 
 ```xml
