@@ -34,8 +34,8 @@ Here you can find the latest templates for the Snow Inventory Agent.
 ## How to use these templates
 
 1. Make sure you have an adequate understanding of the agent configuration and information about the environment the agent will be used in. See the list of mandatory documentation above. If unsure, use the [Snow Inventory Admin Console](https://docs.snowsoftware.com/snow-inventory-server/en/UUID-fdeec059-89bb-401e-5763-5719e89c79c2.html) to generate the agent configuration and then export it, or reach out to Snow Support via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub). Note that the Snow Inventory Admin Console comes with Snow Inventory and is only available for on-premises customers.  
-1. Enter all relevant information into the configuration file. Note that if you need to generate a configuration with passwords, you must use the Snow Inventory Admin Console or reach out to Snow Support.
-1. Add comments, where appropriate, to disable a section of the configuration file. Settings not defined in the configuration file will result in a default beeing applied- Defaults are described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-c54938ea-877f-3e63-7948-57b1e654802f.html) or the (default behaviour)[#Default-behaviour] section of this page.  
+1. Enter all relevant information into the configuration file. Note that if you need to generate a configuration with passwords, you must use the Snow Inventory Admin Console or reach out to Snow Support.  
+1. Add comments, where appropriate, to disable a section of the configuration file. Settings not defined in the configuration file will result in a default being applied- Defaults are described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-c54938ea-877f-3e63-7948-57b1e654802f.html) or the [Default behavior](#Default-behavior) section of this page.  
 1. Remove any unused or empty sections from the configuration file.  
 
 When the configuration file is ready, you can use it to create agent installation packages, either via [Package Builder on Snow Atlas](https://docs.snowsoftware.com/snow-atlas/en/UUID-7a0f8e25-6f02-b787-057d-ddf03c886e9c.html) or via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub).
@@ -49,7 +49,7 @@ When the configuration file is ready, you can use it to create agent installatio
 
 ## Default behavior
 
-Every Snow Inventory Agent has a default behavior depending on the platform. If you use an item from the list below in the configuration file, that default behavior would be removed. For `<SystemSettings>` the granularity is set to the specific `<Setting>`, for everything else it is the Node level above. For example adding one &lt;Software&gt;&lt;IncludeCriteria&gt;&lt;FileType&gt; will remove all FileTypes.
+Every Snow Inventory Agent has a default behavior depending on the platform. If you use an item from the list below in the configuration file, that default behavior would be removed. For `<SystemSettings>` the granularity is set to the specific `<Setting>`, for everything else it is the Node level above. For example adding one `<Software><IncludeCriteria><FileType>` will remove all FileTypes.
 
 ### Windows
 
