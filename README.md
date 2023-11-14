@@ -49,7 +49,7 @@ When the configuration file is ready, you can use it to create agent installatio
 
 ## Default behavior
 
-Every Snow Inventory Agent has a default behavior depending on the platform. If you use an item from the list below in the configuration file, that default behavior would be removed. For `<SystemSettings>` the granularity is set to the specific `<Setting>`, for everything else it is the Node level above. For example adding one `<Software><IncludeCriteria><FileType>` will remove all FileTypes.
+Every Snow Inventory Agent has a default behavior depending on the platform. If you use an item from the list below in the configuration file, that default behavior would be removed. For `<SystemSettings>` the granularity is set to the specific `<Setting>`, for everything else it is the Node level above. For example adding one `<Software><IncludeCriteria><FileType>` will remove the default FileTypes.
 
 ### Windows
 
