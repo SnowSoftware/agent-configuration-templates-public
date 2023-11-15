@@ -33,8 +33,6 @@ If you would like to add or change something in this repository, you are free to
 * [ ] Describe the issue clearly
 * [ ] Keep your code simple
 
-And don't feel bad, if developers can't reproduce right away. They will simply ask for more information.
-
 __Thank you!__
 
 Your help and contributions, large or small, make great projects like this possible!
