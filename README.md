@@ -54,7 +54,7 @@ Every Snow Inventory Agent has a default behavior depending on the platform. If 
 ### Windows
 
 <details>
-<summary>&lt;Software&gt;&lt;IncludeCriteria&gt;&lt;FileType&gt;</summary>
+<summary>Software &gt; IncludeCriteria &gt; FileType</summary>
 
 ```xml
 <Software>
@@ -74,7 +74,7 @@ Every Snow Inventory Agent has a default behavior depending on the platform. If 
 
 
 <details>
-<summary>&lt;Registry&gt;</summary>
+<summary>Registry</summary>
 
 Please use the "Collect custom registry keys" Scanning Module referenced in [Snow Docs: Package Builder - Scanning Modules](https://docs.snowsoftware.com/snow-atlas/en/UUID-fbea6041-f6ea-480b-2b10-292936b39f46.html#UUID-fbea6041-f6ea-480b-2b10-292936b39f46_section-idm423333219851216) instead of adding additional registry queries. Otherwise you will lose
 
@@ -87,7 +87,7 @@ and you would need to keep them updated manually.
 </details>
 
 <details>
-<summary>&lt;SystemSettings&gt;</summary>
+<summary>SystemSettings</summary>
 
 ```xml
 <SystemSettings>
@@ -141,7 +141,7 @@ and you would need to keep them updated manually.
 ### Linux
 
 <details>
-<summary>&lt;Software&gt;&lt;Exclude&gt;&lt;FileSystem&gt;</summary>
+<summary>Software &gt; Exclude &gt; FileSystem</summary>
 
 To get the latest list of excluded file systems, check [Snow Docs: Snow Inventory Agent for Linux - File system types not scanned by the Agent](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-062baded-c442-e50e-2cd0-102c15e8e64b.html#UUID-062baded-c442-e50e-2cd0-102c15e8e64b_section-idm4662919877684832573844085199).
 
@@ -174,7 +174,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-<summary>&lt;SystemSettings&gt;</summary>
+<summary>SystemSettings</summary>
 
 ```xml
 <SystemSettings>
@@ -192,7 +192,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 ### MacOs
 
 <details>
-<summary>&lt;Software&gt;&lt;Exclude&gt;&lt;FileSystem&gt;</summary>
+<summary>Software &gt; Exclude &gt; FileSystem</summary>
 
 To get the latest list of excluded file systems, check [Snow Docs: Snow Inventory Agent for MacOs - File system types not scanned by the Agent](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-8adaed67-35d2-c537-46a5-f809fab188b7.html#UUID-8adaed67-35d2-c537-46a5-f809fab188b7_section-idm4555670506516832575095009411).
 
@@ -216,7 +216,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-<summary>&lt;SystemSettings&gt;</summary>
+<summary>SystemSettings</summary>
 
 ```xml
 <SystemSettings>
@@ -235,7 +235,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 ### Unix (AIX, HP-UX, Solaris)
 
 <details>
-<summary>&lt;Software&gt;&lt;IncludeCriteria&gt;</summary>
+<summary>Software &gt; IncludeCriteria &gt; FileType</summary>
 
 ```xml
 <Software>
@@ -252,7 +252,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-<summary>&lt;Software&gt;&lt;Exclude&gt;</summary>
+<summary>Software &gt; Exclude &gt; Path</summary>
 
 ```xml
 <Software>
@@ -305,7 +305,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 </details>
 
 <details>
-<summary>&lt;SystemSettings&gt;</summary>
+<summary>SystemSettings</summary>
 
 ```xml
 <SystemSettings>
