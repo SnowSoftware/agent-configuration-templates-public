@@ -91,32 +91,12 @@ and you would need to keep them updated manually.
 
 ```xml
 <SystemSettings>
+    <Setting key="disable_all_updates" value="false" />
     <Setting key="env.is_virtual_desktop_infrastructure" value="false" />
-    <Setting key="http.poll_interval" value="60" />
-    <Setting key="http.poll_variance" value="0" />
-    <Setting key="wmi.poll_interval" value="15" />
-    <Setting key="send.max_scan_result_backlog_count" value="90" />
-    <Setting key="http.ssl_verify" value="true" />
     <Setting key="env.powershell_timeout" value="300000" />
-    <Setting key="log.append" value="false" />
-    <Setting key="metering.is_enabled" value="true" />
-    <Setting key="software.scan.enabled" value="true" />
-    <Setting key="software.scan.custominfo" value="true" />
-    <Setting key="software.scan.virtualsoftwareinfo" value="true" />
-    <Setting key="software.scan.fonts" value="true" />
-    <Setting key="software.scan.loginuser" value="true" />
-    <Setting key="software.scan.netclient" value="true" />
-    <Setting key="software.scan.netprotocol" value="true" />
-    <Setting key="software.scan.ntservice" value="true" />
-    <Setting key="software.scan.odbc" value="true" />
-    <Setting key="software.scan.swidtags" value="true" />
-    <Setting key="software.scan.userscan" value="true" />
-    <Setting key="software.scan.fileshare" value="true" />
-    <Setting key="software.scan.environmentvariables" value="true" />
-    <Setting key="hardware.scan.enabled" value="true" />
-    <Setting key="hardware.scan.networkadapter" value="true" />
     <Setting key="hardware.scan.device" value="true" />
     <Setting key="hardware.scan.displayadapter" value="true" />
+    <Setting key="hardware.scan.enabled" value="true" />
     <Setting key="hardware.scan.expansionslot" value="true" />
     <Setting key="hardware.scan.keyboard" value="true" />
     <Setting key="hardware.scan.logicaldisk" value="true" />
@@ -125,14 +105,46 @@ and you would need to keep them updated manually.
     <Setting key="hardware.scan.monitor" value="true" />
     <Setting key="hardware.scan.mouse" value="true" />
     <Setting key="hardware.scan.multimedia" value="true" />
+    <Setting key="hardware.scan.networkadapter" value="true" />
     <Setting key="hardware.scan.pci" value="true" />
     <Setting key="hardware.scan.physicaldisk" value="true" />
     <Setting key="hardware.scan.port" value="true" />
+    <Setting key="hardware.scan.printer" value="true" />
     <Setting key="hardware.scan.processor" value="true" />
     <Setting key="hardware.scan.scsi" value="true" />
     <Setting key="hardware.scan.tapedrive" value="true" />
     <Setting key="hardware.scan.usb" value="true" />
-    <Setting key="hardware.scan.printer" value="true" />
+    <Setting key="http.poll_interval" value="5400" />
+    <Setting key="http.poll_variance" value="1800" />
+    <Setting key="http.ssl_verify" value="true" />
+    <Setting key="http.timeout" value="15" />
+    <Setting key="legacy_webmetering.is_enabled" value="false" />
+    <Setting key="log.append" value="false" />
+    <Setting key="metering.is_enabled" value="true" />
+    <Setting key="powershell.enabled" value="true" />
+    <Setting key="powershell.encryption_key" value="" />
+    <Setting key="privacy.hide_user" value="false" />
+    <Setting key="privacy.hide_ip" value="false" />
+    <Setting key="saas.edge.enabled" value="true" />
+    <Setting key="saas.chrome.enabled" value="true" />
+    <Setting key="saas.firefox.enabled" value="true" />
+    <Setting key="send.max_scan_result_backlog_count" value="90" />
+    <Setting key="software.scan.add_latency" value="0" />
+    <Setting key="software.scan.custominfo" value="true" />
+    <Setting key="software.scan.enabled" value="true" />
+    <Setting key="software.scan.environmentvariables" value="true" />
+    <Setting key="software.scan.fileshare" value="true" />
+    <Setting key="software.scan.fonts" value="true" />
+    <Setting key="software.scan.jar" value="true" />
+    <Setting key="software.scan.loginuser" value="true" />
+    <Setting key="software.scan.netclient" value="true" />
+    <Setting key="software.scan.netprotocol" value="true" />
+    <Setting key="software.scan.ntservice" value="true" />
+    <Setting key="software.scan.odbc" value="true" />
+    <Setting key="software.scan.swidtags" value="true" />
+    <Setting key="software.scan.userscan" value="true" />
+    <Setting key="software.scan.virtualsoftwareinfo" value="true" />
+    <Setting key="wmi.poll_interval" value="15" />
 </SystemSettings>
 ```
 
@@ -178,13 +190,26 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 
 ```xml
 <SystemSettings>
+    <Setting key="disable_all_updates" value="false" />
+    <Setting key="env.allowonlyonescanperday" value="false"/>
     <Setting key="env.data_dir" value="data/"/>
     <Setting key="env.log_dir" value="data/"/>
     <Setting key="env.temp_dir" value="/tmp/snow/"/>
-    <Setting key="send.max_scan_result_backlog_count" value="90"/>
-    <Setting key="http.ssl_verify" value="false" />
-    <Setting key="env.allowonlyonescanperday" value="false"/>
+    <Setting key="http.ssl_verify" value="true" />
+    <Setting key="http.timeout" value="15" />
     <Setting key="log.append" value="false" />
+    <Setting key="saas.edge.enabled" value="true" />
+    <Setting key="saas.chrome.enabled" value="true" />
+    <Setting key="saas.firefox.enabled" value="true" />
+    <Setting key="send.max_scan_result_backlog_count" value="90"/>
+    <Setting key="software.scan.add_latency" value="0" />
+    <Setting key="software.scan.dpkg" value="false" />
+    <Setting key="software.scan.ignore_autofs_mounts" value="false" />
+    <Setting key="software.scan.ignore_bind_mounts" value="false" />
+    <Setting key="software.scan.jar" value="true" />
+    <Setting key="software.scan.rpm" value="false" />
+    <Setting key="software.scan.running_processes" value="true" />
+
 </SystemSettings>
 ```
 </details>
@@ -220,13 +245,23 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 
 ```xml
 <SystemSettings>
+    <Setting key="disable_all_updates" value="false" />
+    <Setting key="env.allowonlyonescanperday" value="false"/>
     <Setting key="env.data_dir" value="data/"/>
     <Setting key="env.log_dir" value="data/"/>
     <Setting key="env.temp_dir" value="/tmp/snow/"/>
-    <Setting key="send.max_scan_result_backlog_count" value="90"/>
     <Setting key="http.ssl_verify" value="false" />
-    <Setting key="env.allowonlyonescanperday" value="false"/>
+    <Setting key="http.timeout" value="15" />
     <Setting key="log.append" value="false" />
+    <Setting key="privacy.hide_ip" value="false" />
+    <Setting key="privacy.hide_user" value="false" />
+    <Setting key="saas.edge.enabled" value="true" />
+    <Setting key="saas.chrome.enabled" value="true" />
+    <Setting key="saas.chrome.enterprise.installation" value="true" />
+    <Setting key="saas.firefox.enabled" value="true" />
+    <Setting key="send.max_scan_result_backlog_count" value="90"/>
+    <Setting key="software.scan.add_latency" value="0" />
+    <Setting key="software.scan.jar" value="true" />
 </SystemSettings>
 ```
 
@@ -309,13 +344,23 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 
 ```xml
 <SystemSettings>
+    <Setting key="disable_all_updates" value="false" />
+    <Setting key="env.allowonlyonescanperday" value="false"/>
     <Setting key="env.data_dir" value="data/"/>
     <Setting key="env.log_dir" value="data/"/>
     <Setting key="env.temp_dir" value="/tmp/snow/"/>
-    <Setting key="send.max_scan_result_backlog_count" value="90"/>
-    <Setting key="http.ssl_verify" value="false" />
-    <Setting key="env.allowonlyonescanperday" value="false"/>
+    <Setting key="http.ssl_verify" value="true" />
+    <Setting key="http.timeout" value="15" />
     <Setting key="log.append" value="false" />
+    <Setting key="privacy.hide_ip" value="false" />
+    <Setting key="privacy.hide_user" value="false" />
+    <Setting key="send.max_scan_result_backlog_count" value="90"/>
+    <Setting key="software.scan.add_latency" value="0" />
+    <Setting key="software.scan.ips" value="true" />
+    <Setting key="software.scan.lpp" value="true" />
+    <Setting key="software.scan.running_processes" value="true" />
+    <Setting key="software.scan.sd" value="true" />
+    <Setting key="software.scan.svr4" value="true" />
 </SystemSettings>
 ```
 
@@ -331,3 +376,5 @@ Find us on [www.snowsoftware.com](https://www.snowsoftware.com)
 ## Contribution
 
 If you want to contribute or suggest a change, create an idea on our [ideas portal](https://ideas.snowsoftware.com).  
+
+&copy; 2023 Snow Software, Inc. All rights reserved.
