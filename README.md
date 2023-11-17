@@ -377,4 +377,4 @@ Find us on [www.snowsoftware.com](https://www.snowsoftware.com)
 
 If you want to contribute or suggest a change, create an idea on our [ideas portal](https://ideas.snowsoftware.com).  
 
-&copy; 2023 Snow Software, Inc. All rights reserved.
+&copy; Snow Software 2023, All rights reserved.
