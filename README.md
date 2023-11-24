@@ -27,9 +27,6 @@ Here you can find the latest templates for the Snow Inventory Agent.
 - [Linux](/linux/snowagent.config)
 - [macOs](/macos/snowagent.config)
 - [Unix](/unix/snowagent.config)
-  - [AIX](/unix/AIX/snowagent.config)
-  - [HP-UX](/unix/HPUX/snowagent.config)
-  - [Solaris](/unix/Solaris/snowagent.config)
 
 ## How to use these templates
 

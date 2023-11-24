@@ -15,13 +15,10 @@ This project only uses dates (yyyy-mm-dd) to track changes.
 
 ### Fixed
 
-- `./unix/snowagent.config` - changed `scan.software.srv4` to `scan.software.svr4`
-- `./unix/AIX/snowagent.config` - changed `scan.software.srv4` to `scan.software.svr4`
-- `./unix/HPUX/snowagent.config` - changed `scan.software.srv4` to `scan.software.svr4`
-- `./unix/Solaris/snowagent.config` - changed `scan.software.srv4` to `scan.software.svr4`
 - `./windows/snowagent.config` - changed schedule `TimeOfDay` to time format
 
 ### Removed
 
 - `./windows/snowagent.config` - removed `saas.ie11.enabled` setting, which was removed in Snow Inventory Agent for Windows 6.10.0.
 - `./macos/snowagent.config` - removed `saas.ie11.enabled` setting what never was a viable MacOS option.
+- `./unix/snowagent.config` - removed `scan.software.svr4`, `software.scan.ips`, `software.scan.lpp` and `software.scan.sd` as they are defaulting to true and only executed on the specific operating systems
