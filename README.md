@@ -195,9 +195,6 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
     <Setting key="http.ssl_verify" value="true" />
     <Setting key="http.timeout" value="15" />
     <Setting key="log.append" value="false" />
-    <Setting key="saas.edge.enabled" value="true" />
-    <Setting key="saas.chrome.enabled" value="true" />
-    <Setting key="saas.firefox.enabled" value="true" />
     <Setting key="send.max_scan_result_backlog_count" value="90"/>
     <Setting key="software.scan.add_latency" value="0" />
     <Setting key="software.scan.dpkg" value="false" />
