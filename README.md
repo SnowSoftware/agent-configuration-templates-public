@@ -264,7 +264,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 
 </details>
 
-### Unix (AIX, HP-UX, Solaris)
+### Unix
 
 <details>
 <summary>Software &gt; IncludeCriteria &gt; FileType</summary>
