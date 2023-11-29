@@ -10,12 +10,16 @@ This project only uses dates (yyyy-mm-dd) to track changes.
 ### Added
 
 - Moved configuration templates from docs.snowsoftware.com to github
+- `./windows/snowagent.config` - added xml namespace
 
 ### Changed
 
 - `./windows/snowagent.config` - changed schedule `TimeOfDay` to the preferred and easier to read time format. The duration format is still supported.
 - `./windows/snowagent.config` - changed `Logging` > `Level` to verbose and `Logging` > `MaxSize` to 10240 to align all default configurations and allow easier troubleshooting.
 - `./macos/snowagent.config` - changed `Logging` > `Level` to verbose and `Logging` > `MaxSize` to 10240 to align all default configurations and allow easier troubleshooting.
+- `./macos/snowagent.config` - updated xml namespace
+- `./linux/snowagent.config` - updated xml namespace
+- `./unix/snowagent.config` - updated xml namespace
 
 ### Removed
 
