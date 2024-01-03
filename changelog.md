@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 This project only uses dates (yyyy-mm-dd) to track changes.
 
+## 2024-01-03
+
+### Changed
+
+- `./windows/snowagent.config` - updated xml namespace to prevent Inventory Server Errors
+- `./macos/snowagent.config` - reverted xml namespace to prevent Inventory Server Errors
+- `./linux/snowagent.config` - reverted xml namespace to prevent Inventory Server Errors
+- `./unix/snowagent.config` - reverted xml namespace to prevent Inventory Server Errors
+- `./windows/snowagent.config` - changed encoding from UTF-8-BOM to UTF-8
+
 ## 2023-11-30 - Initial Release
 
 ### Added
