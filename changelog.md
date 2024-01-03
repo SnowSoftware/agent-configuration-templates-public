@@ -9,7 +9,7 @@ This project only uses dates (yyyy-mm-dd) to track changes.
 
 ### Changed
 
-added `.gitattributes` file to handle line endings of configuration files properly
+added `.gitattributes` file to handle line endings of config files the same over all platforms
 
 - `./windows/snowagent.config` - updated xml namespace to prevent Inventory Server Errors
 - `./macos/snowagent.config` - reverted xml namespace to prevent Inventory Server Errors
