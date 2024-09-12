@@ -9,16 +9,16 @@ Here you can find the latest templates for the Snow Inventory Agent.
 
 > [!IMPORTANT]  
 > It is mandatory to have adequate knowledge of the contents of the following documentation before using the configuration file templates:  
-> [Snow Docs: Compatibility Matrix - Snow Inventory Agents](https://docs.snowsoftware.com/snow-compatibility-matrix/en/UUID-4d460220-56ef-9cc4-9ffe-ddd76ba92189.html)  
-> [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-c54938ea-877f-3e63-7948-57b1e654802f.html)  
+> [Snow Docs: Compatibility Matrix - Snow Inventory Agents](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/compatibility-matrix/)  
+> [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/configuration-of-snow-inventory-agents/agent-configuration-file/)  
 > [Snow Docs: Configuration Reference](https://docs.snowsoftware.com/documentation-resources/snow-inventory/configuration-doc.html)  
-> [Snow Docs: Snow Inventory Agent for Windows](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-a4ceda3e-9084-0bd8-c9c5-625964ee8e77.html)  
-> [Snow Docs: Snow Inventory Agent for Linux](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-8143d4ba-088a-9fb8-c791-95e62b3e7ee4.html)  
-> [Snow Docs: Snow inventory Agent for macOs](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-8f964073-e34f-01c6-e57c-76e648b015e8.html)  
-> [Snow Docs: Snow Inventory Agent for Unix](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-93e9e6c7-33a0-0c85-c826-78f164c001ec.html)  
-> [Snow Docs: Snow Inventory Oracle Scanner](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-a4e6b99f-a81d-42fd-5bb6-ebcf6dcb0e63.html)  
-> [Snow Docs: System Requirements - Snow Inventory Agents and Oracle Scanners](https://docs.snowsoftware.com/snow-system-requirements/en/UUID-5e67847f-6c9b-5432-aa51-0fd32d9ce96c.html)  
-> [Snow Docs: System Requirements for the Package Builder](https://docs.snowsoftware.com/snow-system-requirements/en/UUID-bf9d536d-bae2-2f07-2857-11ad85beee74.html)  
+> [Snow Docs: Snow Inventory Agent for Windows](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-windows/)  
+> [Snow Docs: Snow Inventory Agent for Linux](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-linux/)  
+> [Snow Docs: Snow inventory Agent for macOs](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-macos/)  
+> [Snow Docs: Snow Inventory Agent for Unix](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-unix/)  
+> [Snow Docs: Snow Inventory Oracle Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-scanner/)  
+> [Snow Docs: System Requirements - Snow Inventory Agents and Oracle Scanners](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/system-requirements/)  
+> [Snow Docs: About Package Builder](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/system-requirements/)  
 > [Snow Globe: Inventory Agent Exclusions](https://community.snowsoftware.com/s/article/Inventory-Agent-Exclusions)  
 
 ## Template files
@@ -30,19 +30,29 @@ Here you can find the latest templates for the Snow Inventory Agent.
 
 ## How to use these templates
 
-1. Make sure you have an adequate understanding of the agent configuration and information about the environment the agent will be used in. See the list of mandatory documentation above. If unsure, use the [Snow Inventory Admin Console](https://docs.snowsoftware.com/snow-inventory-server/en/UUID-fdeec059-89bb-401e-5763-5719e89c79c2.html) to generate the agent configuration and then export it, or reach out to Snow Support via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub). Note that the Snow Inventory Admin Console comes with Snow Inventory and is only available for on-premises customers.  
+1. Make sure you have an adequate understanding of the agent configuration and information about the environment the agent will be used in. See the list of mandatory documentation above. If unsure, use the [Snow Inventory Admin Console](https://docs.snowsoftware.io/other-snow-products/snow-inventory-server/snow-inventory-server-admin-console/) to generate the agent configuration and then export it, or reach out to Snow Support via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub). Note that the Snow Inventory Admin Console comes with Snow Inventory and is only available for on-premises customers.  
 1. Enter all relevant information into the configuration file. Note that if you need to generate a configuration with passwords, you must use the Snow Inventory Admin Console or reach out to Snow Support.  
-1. Add comments, where appropriate, to disable a section of the configuration file. Settings not defined in the configuration file will result in a default being applied- Defaults are described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-c54938ea-877f-3e63-7948-57b1e654802f.html) or the [Default behavior](#default-behavior) section of this page.  
+1. Add comments, where appropriate, to disable a section of the configuration file. Settings not defined in the configuration file will result in a default being applied. Defaults are described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/configuration-of-snow-inventory-agents/agent-configuration-file/) or the [Default behavior](#default-behavior) section of this page.  
 1. Remove any unused or empty sections from the configuration file.  
+1. Validate the configuration file against the schema file provided in the [./schemas/] folder in this repository. Read more about using it in the [Schema validation](#schema-validation) chapter.
 
-When the configuration file is ready, you can use it to create agent installation packages, either via [Package Builder on Snow Atlas](https://docs.snowsoftware.com/snow-atlas/en/UUID-7a0f8e25-6f02-b787-057d-ddf03c886e9c.html) or via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub).
+When the configuration file is ready, you can use it to create agent installation packages, either via [Package Builder on Snow Atlas](https://docs.snowsoftware.io/snow-atlas/user-documentation/package-builder/) or via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub).
 
 > [!Note]  
 >
 > - XML does not allow nested comments.  
 > - XML is case-sensitive. For example, `<Oracle>` is **NOT** the same as `<oracle>`.  
-> - The configuration for [Snow Inventory Oracle Middleware Scanner](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-7526d097-e486-f798-328f-b3aa7a5da385.html), [Snow Inventory Oracle Hardware Scanner](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-8f7ce834-805a-1a8b-6569-537844460727.html) and [Snow Inventory Java Scanner](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-29ad3c06-f149-1af4-c8b2-9b4de9e947f9.html) is not part of the Snow Inventory Agent configuration file.
+> - The configuration for [Snow Inventory Oracle Middleware Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-middleware-scanner/), [Snow Inventory Oracle Hardware Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-hardware-scanner/) and [Snow Inventory Java Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-java-scanner/) is not part of the Snow Inventory Agent configuration file.
 > - Test the configuration before deploying it in the infrastructure. Every environment is different.
+
+## Schema validation
+
+This repository contains XSD files in the [./schemas](./schemas/) folder. XSD files are used to validate XML files, like the Agent configuration. Different tools offer different functionality for this task.
+
+- [Visual Studio Code](https://code.visualstudio.com/): This repository already contains files to configure VSCode, which are located in the [.vscode] folder. The recommended Extension is [RedHat XML Extension](https://github.com/redhat-developer/vscode-xml/tree/main).
+- [Notepad++](https://notepad-plus-plus.org/): You can use the [XMLTools](https://github.com/morbac/xmltools) Plugin, you can install with the plugin management.
+- [XMLNotepad](https://microsoft.github.io/XmlNotepad/#): You can use the Microsoft XML Nptepad, which comes with schema validation.
+- [xmllint](https://linux.die.net/man/1/xmllint): On linux you can use the `xmllint` command with the `--schemafile` option.
 
 ## Default behavior
 
@@ -73,7 +83,7 @@ Every Snow Inventory Agent has a default behavior depending on the platform. If 
 <details>
 <summary>Registry</summary>
 
-Please use the "Collect custom registry keys" Scanning Module referenced in [Snow Docs: Package Builder - Scanning Modules](https://docs.snowsoftware.com/snow-atlas/en/UUID-fbea6041-f6ea-480b-2b10-292936b39f46.html#UUID-fbea6041-f6ea-480b-2b10-292936b39f46_section-idm423333219851216) instead of adding additional registry queries. Otherwise you will lose
+Please use the "Collect custom registry keys" Scanning Module referenced in [Snow Docs: Package Builder - Scanning Modules](https://docs.snowsoftware.io/snow-atlas/user-documentation/package-builder/scanning-modules/) instead of adding additional registry queries. Otherwise you will lose
 
 - Exchange Server details
 - Windows Clustering details
@@ -152,7 +162,7 @@ and you would need to keep them updated manually.
 <details>
 <summary>Software &gt; Exclude &gt; FileSystem</summary>
 
-To get the latest list of excluded file systems, check [Snow Docs: Snow Inventory Agent for Linux - File system types not scanned by the Agent](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-062baded-c442-e50e-2cd0-102c15e8e64b.html#UUID-062baded-c442-e50e-2cd0-102c15e8e64b_section-idm4662919877684832573844085199).
+To get the latest list of excluded file systems, check [Snow Docs: Snow Inventory Agent for Linux - File system types not scanned by the Agent](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-linux/the-scanning-process/#file-system-types-not-scanned-by-the-agent).
 
 ```xml
 <Software>
@@ -213,7 +223,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 <details>
 <summary>Software &gt; Exclude &gt; FileSystem</summary>
 
-To get the latest list of excluded file systems, check [Snow Docs: Snow Inventory Agent for MacOs - File system types not scanned by the Agent](https://docs.snowsoftware.com/snow-inventory-agents-and-oracle-scanners/en/UUID-8adaed67-35d2-c537-46a5-f809fab188b7.html#UUID-8adaed67-35d2-c537-46a5-f809fab188b7_section-idm4555670506516832575095009411).
+To get the latest list of excluded file systems, check [Snow Docs: Snow Inventory Agent for MacOs - File system types not scanned by the Agent](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-macos/the-scanning-process/#file-system-types-not-scanned-by-the-agent).
 
 ```xml
 <Software>
@@ -362,13 +372,13 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
 
 ---
 
-## Who is Snow Software?
+## Who is Flexera?
 
-Snow Software is the global leader in technology intelligence solutions, ensuring that organizations drive the maximum value from their technology investments. Over 4,000 organizations rely on Snow to provide complete visibility, optimize usage and spend, and minimize regulatory risk.
-Find us on [www.snowsoftware.com](https://www.snowsoftware.com)
+Flexera is the global leader in technology intelligence solutions, ensuring that organizations drive the maximum value from their technology investments. Over 4,000 organizations rely on Flexera to provide complete visibility, optimize usage and spend, and minimize regulatory risk.
+Find us on [www.flexera.com](https://www.flexera.com)
 
 ## Contribution
 
 If you want to contribute or suggest a change, create an idea on our [ideas portal](https://ideas.snowsoftware.com).  
 
-&copy; Snow Software 2023, All rights reserved.
+&copy; Flexera 2023 - 2024, All rights reserved.

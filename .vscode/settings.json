@@ -1,0 +1,8 @@
+{
+    "xml.fileAssociations": [
+        {
+            "pattern": "**/**/*snowagent*.config",
+            "systemId": "${workspaceFolder}/schemas/v1.0.0/snowagent.config.xsd"
+        }
+     ]
+}
