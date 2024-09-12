@@ -5,11 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 This project only uses dates (yyyy-mm-dd) to track changes.
 
+## 2024-09-13
+
+### Added
+
+- Added the `snowagent.config.xsd` file in the [./schemas/v1.0.0](./schemas/v1.0.0/) folder to allow validation of agent configuration files.
+- Added details about schema validation to the `README.md`.
+
+### Changed
+
+- Updated Snow Docs links in `README.md`.
+
 ## 2024-01-03
 
 ### Changed
 
-added `.gitattributes` file to handle line endings of config files the same over all platforms
+- Added `.gitattributes` file to handle line endings of config files the same over all platforms
 
 - `./windows/snowagent.config` - updated xml namespace to prevent Inventory Server Errors
 - `./macos/snowagent.config` - reverted xml namespace to prevent Inventory Server Errors
