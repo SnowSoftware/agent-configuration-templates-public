@@ -137,7 +137,7 @@ Exclude software based on a set of simple string matching rules.
                             </xs:complexType>
                         </xs:element>
 
-                        <xs:element name="Span" type="Span" minOccurs="1" maxOccurs="unbounded">
+                        <xs:element name="Span" type="Span" minOccurs="1" maxOccurs="1">
                             <xs:annotation>
                                 <xs:documentation>
                                     <![CDATA[
@@ -148,7 +148,7 @@ Time span for metering.
                             </xs:annotation>
                         </xs:element>
 
-                        <xs:element name="Occurance" type="MeterOccurance" minOccurs="1" maxOccurs="7">
+                        <xs:element name="Occurance" type="MeterOccurance" minOccurs="1" maxOccurs="1">
                             <xs:annotation>
                                 <xs:documentation>
                                     <![CDATA[
@@ -955,7 +955,7 @@ Default: `true`
             </xs:element>
             <xs:element type="NotEmptyString" name="OracleHome" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Optional Element. Path to the Oracle home directory. Used if the scanner can’t find the path automatically.</xs:documentation>
+                    <xs:documentation>Optional Element. Path to the Oracle home directory. Used if the scanner cannot find the path automatically.</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="Environment" type="Environment" minOccurs="0" maxOccurs="1"/>
