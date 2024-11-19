@@ -1,0 +1,2543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:annotation>
+        <xs:documentation>
+            Snow Inventory Agent Configuration Schema
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="Configuration" type="Configuration"/>
+
+    <xs:complexType name="Configuration">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+Root element of Snow inventory configuration file.  <br/>
+An element with minOccurs="0" that isn't presented in the xml file will have a Null value.
+Every system shall have a default settings.xml file that decides what value should be the default if none is given.<br/>
+The order the client should do this is to first read the default xml file and after that write over these values with the values in the users xml file.<br/>
+
+> **Note:**<br/>
+> All elements in the configuration file are case sensitive.
+                ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="Agent">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+Basic information about the agent deployment. Such as site and configuration name.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="SiteName" type="NotEmptyString" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Required element.</b><br/>
+The name of the site that the agent belongs to. The site is used to identify the origin of the data files when transmitted to the server.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="ConfigName" type="NotEmptyString" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Required element.</b><br/>
+Name of the configuration.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+
+            </xs:element>
+
+            <xs:element name="Schedule" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element. **Only applicable to the Windows Agent.**<br />
+Schedule tasks to run on a recurring interval.<br />
+The element must be provided in the configuration for automatic scans to be performed.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Task" type="ScheduleTask" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>List of tasks that the client should perform. Can be empty.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="enabled" type="xs:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                <![CDATA[
+Acceptable values: `true`, `false`
+                                ]]>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="Meter" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element. **Only applicable to the Windows Agent.**<br/>
+Metering rules.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Exclude" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Specifies what software should be excluded from scan.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Path" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element.<br/>
+Exclude software based on a set of simple string matching rules.
+
+> **Example:**<br />
+>
+> - `*.dll` exclude all software that ends with the `.dll` extension<br />
+> - `C:\Windows\*` exclude all software that is run from the `C:\Windows` directory<br />
+>
+
+<!-- -->
+
+> **Note:**<br />
+> Exclusions do not impact unconditional include paths.<br />
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+
+                        <xs:element name="Span" type="Span" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Required element.</b><br/>
+Time span for metering.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+
+                        <xs:element name="Occurance" type="MeterOccurance" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Required element.</b><br/>
+List of days when metering should be done.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:unique name="Weekday">
+                                <xs:selector xpath="child::Weekday"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="enabled" type="xs:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                <![CDATA[
+Acceptable values: `true`, `false` <br/>
+                                ]]>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="Software" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.
+Defines what should be included in the clients next scan.
+
+> **Note:**<br/>
+> Software is included from the following locations by default in the Windows operating system:<br/>
+>
+> - Desktop<br/>
+> - user profile<br/>
+> - start menu<br/>
+> - uninstall information<br/>
+> - running processes<br/>
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+
+                        <xs:element name="Include" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Specifies what software should be included in scan based on file system locations.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+
+                                    <xs:element name="Path" type="SoftwareIncludePath" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                            <![CDATA[
+Each path is a search expression that is used to locate software based on the file system information.<br />
+
+If no path is specified, software information from any locally attached (or mounted) disk will be included.<br />
+
+> **Note:**<br />
+> Unless any exclude paths have been specified a complete file system scan will take place. It could take a while, and impact system performance for the duration of the scan. <br />
+                                            ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+
+                                </xs:sequence>
+                            </xs:complexType>
+                            <xs:unique name="Include_Path">
+                                <xs:selector xpath="child::Path"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                        </xs:element>
+
+                        <xs:element name="IncludeCriteria" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Additional criteria that must be fulfilled for software to be included in the result.<br/>
+For each type of criteria, at least one (if any) of the criterias must match.<br/>
+For example, if multiple extensions have been specified it's enough if one extension matches but if extensions and manufacturers have both been specified there has to be at least one matching extension and manufacturer.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+
+                                    <xs:element name="Manufacturer" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element.**Only applicable to the Windows Agent.**  May be specified multiple times. <br/>
+If software is to be included, it must match at least one manufacturer filter.<br/>
+
+> **Note:**<br/>
+> The manufacturer criteria can only be applied if the manufacturer can be determined.
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+
+                                    <xs:element name="FileSystem" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element. **Only applicable to UNIX agent.** May be specified multiple times. <br/>
+If scanning for software reaches a directory that is a mount point the scanning will not continue scanning the directory further if the file system isn't listed.<br/>
+
+> **Example:**<br/>
+> `jsf`
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+
+                                    <xs:element name="FileType" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element. May be specified multiple times. **Only applicable for the Windows &amp; Unix Agent**<br/>
+If software is to be included it must match one of the file types specified.<br/>
+
+> **Example:**<br/>
+>
+> - Unix: `ELF*executable*`, as reported by the `file` command. Supports wildcard matching.<br/>
+> - Windows: file extensions. Defaults are: `exe`, `wfd`, `wfi`, `wtd`, `sys2`, `lnk`
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+
+                                </xs:sequence>
+                                <xs:attribute name="enabled" type="xs:boolean" default="true">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            <![CDATA[
+Acceptable values: `true`, `false`<br/>
+Default: `true`
+                                            ]]>
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:attribute>
+                            </xs:complexType>
+                            <xs:unique name="IncludeCriteria_FileSystem">
+                                <xs:selector xpath="child::Filesystem"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                            <xs:unique name="IncludeCriteria_Manufacturer">
+                                <xs:selector xpath="child::Manufacturer"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                            <xs:unique name="IncludeCriteria_FileType">
+                                <xs:selector xpath="child::FileType"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                        </xs:element>
+
+                        <xs:element name="Exclude" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Specifies what software should be excluded from scan.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Path" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element. May be specified multiple times.<br/>
+Exclude software based on a set of simple string matching rules.<br/>
+
+> **Examples:**<br/>
+>
+> - `*.dll` exclude all software that ends with the `.dll` extension<br/>
+> - `C:\Windows\*` exclude all software that is run from the `C:\Windows` directory<br/>
+> - `/some/path/*` exclude software beneath the /some/path directory
+
+<!-- -->
+
+> **Note:**<br/>
+> Exclusions do not impact unconditional include paths.
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="FileSystem" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element. May be specified multiple times. **Only applicable to the Linux and macOS Agent.**<br/>
+Software exclusions based on the file system type.<br/>
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                            <xs:unique name="Exclude_FileSystem">
+                                <xs:selector xpath="child::Filesystem"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                            <xs:unique name="Exclude_Path">
+                                <xs:selector xpath="child::Path"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                        </xs:element>
+
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="Registry" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element. **Only applicable to the Windows Agent.**<br/>
+Include additional information from the Windows Registry in the scan result.
+
+> **Warning:**<br/>
+> Using this will replace the default behaviour entirely. Utilizing the `Collect Custom Registry Keys` powershell extension is the preferred method.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Query" type="RegistryQuery" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Represents a registry query.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="enabled" type="xs:boolean">
+                        <xs:annotation>
+                            <xs:documentation>Acceptable values: `true`, `false`</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="Logging" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+Control the log output.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+
+                        <xs:element name="MaxSize" type="xs:positiveInteger" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Maximum allowed file size of the log file in KiB.<br/>
+Default:<br/>
+
+- Windows/Linux/macOS: `2048`<br/>
+- Unix: `16384`<br/>
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+
+                        <xs:element name="Level" type="LogLevel" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Specify log level. Each log level includes the preceeding log level.<br/>
+Default: `error`
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+
+                        <xs:element name="Tag" type="LogTags" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Enable tagged log output. Tagged log output represents logging of a specific type or source and log independently of any log level set.<br/>
+Some tags (such as the `metering` tag) are very verbose and should only be enabled during troubleshooting of any metering related issue.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Syslog" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element. **Only applicable to the POSIX Agent.**<br/>
+Control the syslog output.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Level" type="LogLevel" minOccurs="0">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element.<br/>
+Specify log level. Each log level includes the preceeding log level.<br />
+Default: `error`
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+
+                                    <xs:element name="Tag" type="LogTags" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element.<br/>
+Enable tagged log output. Tagged log output represents logging of a specific type or source and log independently of any log level set.<br/>
+Some tags (such as the `metering` tag) are very verbose and should only be enabled during troubleshooting of any metering related issue.
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+
+                                </xs:sequence>
+                                <xs:attribute name="enabled" type="xs:boolean" default="false">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            <![CDATA[
+Acceptable value: true or false
+Default: false
+                                            ]]>
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:attribute>
+                            </xs:complexType>
+                            <xs:unique name="SyslogTags">
+                                <xs:selector xpath="child::Tag"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="LogTags">
+                    <xs:selector xpath="child::Tag"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+
+            <xs:element name="Server" type="ServerSettings" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+Specify server endpoints. Each endpoint represents a possible path for the agent to the server.
+                            ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="DropLocation" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+A drop location can be a folder, HTTP endpoint or UNC file path and specifies an additional delivery location for scan results. Only used when the agent normally sends the result to the server.<br/>
+
+> **Note:**<br/>
+> Drop locations are not subject to retry policies, if a drop location does not receive the scan result (for any reason) the scan result will not be resent to that drop location at a later date.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice minOccurs="1" maxOccurs="unbounded">
+                        <xs:element name="Network" type="Network" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Optional element. **Only applicable to the Windows Agent.** May be specified multiple times.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Path" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element. May be specified multiple times.
+> **Example:**<br />
+>
+> - `\\server\folder`
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Endpoint" type="ServerEndpoint" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="Oracle" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Information used in the SIOS component for Oracle database inventory.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Environment" type="Environment" minOccurs="0" maxOccurs="1">
+                            <xs:unique name="Environment">
+                                <xs:selector xpath="child::Item"/>
+                                <xs:field xpath="@variable"/>
+                            </xs:unique>
+                        </xs:element>
+                        <xs:element name="DefaultInstanceCredentials" type="UserCredentials" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Credentials used in all oracle scans if there is no specific credentials for a SID.
+May be left out if automatic scan is used or instance specific credentials are entered.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Oratab" type="xs:string" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Specifies the location of the Oratab file to be used to read ORACLE HOME from.
+This setting is overridden by an OracleHome-element in the Instance-element.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="InstancesWithConfiguration" type="Instances" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="Include" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>List of what should be included in the Oracle database scan.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:choice>
+                                    <xs:element name="AllInstances" type="xs:boolean" default="true" minOccurs="0">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                            <![CDATA[
+Control, if all instances should be found and scanned.<br />
+Deafault: `true`
+                                        ]]>
+                                        </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                    <xs:element name="Instance" type="OracleInstance" maxOccurs="unbounded"/>
+                                </xs:choice>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="Exclude" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>List of what should be excluded from the Oracle database scan.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Instance" type="OracleInstance" maxOccurs="unbounded" minOccurs="0"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="enabled" type="xs:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                            <![CDATA[Acceptable values: `true`, `false`]]>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="debug" type="xs:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                            <![CDATA[
+Determines if additional information is included in the snowpack for diagnostic purposes.<br/>
+Acceptable values: `true`, `false`
+                            ]]>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+                <xs:unique name="Instance">
+                    <xs:selector xpath="child::Include/child::Instance/child::SID | child::Exclude/child::Instance/child::SID"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+
+            <xs:element name="SystemSettings" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>System settings that override the default behavior of the agent. Use with care.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Setting" type="SystemSetting" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="SystemSetting">
+                    <xs:selector xpath="child::Setting"/>
+                    <xs:field xpath="@key"/>
+                </xs:unique>
+            </xs:element>
+
+            <xs:element name="Environment" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Element containing control directives regarding environment data.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Ignore" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Used to specify an environment variable to ignore when gathering them from the environment. Name is case-sensitive.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="Ignore">
+                    <xs:selector xpath="child::Ignore"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+
+            <xs:element name="SudoCommands" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element. **Only applicable to the UNIX Agent.**<br/>
+List of commands that are allowed to be elevated to root using sudo.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Path" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>
+                                   <![CDATA[
+Path to command allowed to be elevated using sudo.<br/>
+> **Example:**<br/>
+>
+> - `/usr/bin/file`
+                                   ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+                <xs:unique name="SudoPath">
+                    <xs:selector xpath="child::Path"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+
+        </xs:all>
+    </xs:complexType>
+
+    <xs:simpleType name="NotEmptyString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:pattern value=".*[^\s].*" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SHA256HashString">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="sha256//[a-zA-z0-9+/=]{44}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ServerSettings">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+Specify server endpoints. Each endpoint represents a possible path for the agent to the server.<br/>
+> **Note:**<br/>
+> When establishing a connection to the server the agent simply choses an endpoint randomly from the list of available endpoints until each endpoint has been atempted at least once before giving up.<br/>
+> The first endpoint that results in a successfull connection will be used for the remainder of the session.
+                ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Endpoint" type="ServerEndpoint" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b> May be specified multiple times.<br/>
+A server endpoint that the agent will use to connect to the server infrastructure.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ServerEndpoint">
+        <xs:sequence>
+            <xs:element type="NotEmptyString" name="Address">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+Specify the server URI in the following format: `scheme://hostname:port/`.<br/>
+Supported URI schemes are `http` and `https`.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Proxy" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+Proxy settings to use for this endpoint. If proxy settings are not specified any proxy server support is explicitly disabled for this endpoint.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element type="NotEmptyString" name="Server" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Required element.</b><br/>
+Specify the address for this proxy server.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Credentials" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Credentials used to authenticate connection with HTTP proxy server.<br/>
+> **Note:**<br/>
+> Only basic authentication is supported.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="UserName" type="NotEmptyString"/>
+                                    <xs:element name="Password" type="xs:string">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+> **Note:**<br/>
+> Passwords needs to be provided in encrypted form.
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ClientCertificate" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+The client certificate used to secure the connection between agent and server.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:choice>
+                            <xs:element name="FileName" type="NotEmptyString">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        <![CDATA[
+The file name of a client certificate to use, relative to the current installation location.
+                                        ]]>
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:choice>
+                        <xs:element name="Password" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+The password to use if the client certificate has been password protected.<br/>
+> **Note:**<br />
+> Passwords needs to be provided in encrypted form.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element type="SHA256HashString" name="ServerPublicKeyHash" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Base64-encoded sha256 hash of the Inventory server certificate public key. The string should start with `sha256//` <br/>
+> **Example:**<br/>
+>
+> - `sha256//YhKJKSzoTt2b5FP18fvpHo7fJYqQCjAa3HWY3tvRMwE=`
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Environment">
+        <xs:sequence>
+            <xs:element name="Item" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Specifies a single environment variable to be set.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="variable" type="NotEmptyString" use="required"/>
+                    <xs:attribute name="value" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SoftwareIncludePath">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+Each path is a search expression that is used to locate software based on the file system information.<br/>
+<br/>
+> **Example:**<br/>
+>
+> - `C:\Windows\*` matches all files located in the `C:\Windows` directory<br/>
+> - `C:\Windows\*.log` matches all `.log` files located in the `C:\Windows` directory
+                ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="NotEmptyString">
+                <xs:attribute type="xs:boolean" name="recursive" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <![CDATA[
+Optional element.<br/>
+Specifies whether to use the path to search recursively for files.<br/>
+For example, when `recursive=true` the path `C:\Windows\*.log` matches all `.log` files located in the `C:\Windows` directory and all sub directories.<br />
+Acceptable values: `true`, `false`<br />
+Default: `false`
+                            ]]>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute type="xs:boolean" name="unconditionally" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <![CDATA[
+Optional element.<br/>
+Specifies whether to include the files found regardless of any exclusion filter.<br/>
+Acceptable values: `true`, `false`<br/>
+Default: `true`
+                            ]]>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!--xs:complexType name="SoftwareExcludePath">
+        <xs:simpleContent>
+            <xs:extension base="xs:string"></xs:extension>
+        </xs:simpleContent>
+    </xs:complexType-->
+
+    <xs:complexType name="OracleInstances">
+        <xs:annotation>
+            <xs:documentation>List of Oracle instances</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Instance" type="OracleInstance" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="OracleInstance">
+        <xs:annotation>
+            <xs:documentation>Defines the SID and can also contain credentials for the SID. You can also point to an Oracle home path.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="NotEmptyString" name="SID">
+                <xs:annotation>
+                    <xs:documentation>**Required Element**</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Credentials" type="UserCredentials" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Optional Element.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="NotEmptyString" name="OracleHome" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Optional Element. Path to the Oracle home directory. Used if the scanner cannot find the path automatically.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Environment" type="Environment" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="UnixUser" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Optional Element. **Only applicable to the Linux and Unix Agent.**</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="LogLevel">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+The levels of logging in order of importance.
+The Error, Warning and Info levels will be ordinary day to day logging while the Trace and Verbose are for debug and fault search.
+                ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="error"/>
+            <xs:enumeration value="warning"/>
+            <xs:enumeration value="info"/>
+            <xs:enumeration value="trace"/>
+            <xs:enumeration value="verbose"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LogTags">
+        <xs:annotation>
+            <xs:documentation>The following is a complete list of supported tags:</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="privop"/>
+            <xs:enumeration value="metering"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Instances">
+        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="Instance" type="OracleInstance" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="UserCredentials">
+        <xs:sequence>
+            <xs:element name="UserName" type="NotEmptyString"/>
+            <xs:element name="Password" type="NotEmptyString"/>
+        </xs:sequence>
+        <xs:attribute name="UseTNS" type="xs:boolean" use="optional" default="false"/>
+    </xs:complexType>
+
+    <xs:complexType name="Network">
+        <xs:sequence>
+            <xs:element name="Credentials">
+                <xs:annotation>
+                    <xs:documentation>Credentials to use when connecting to a network share as a specific user.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element type="NotEmptyString" name="Domain"/>
+                        <xs:element type="NotEmptyString" name="UserName"/>
+                        <xs:element type="xs:string" name="Password"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element type="NotEmptyString" name="Location"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="SystemSettingKey">
+        <xs:annotation>
+            <xs:documentation>Keys defined for special functions in the system.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="reserved">
+                <xs:annotation>
+                    <xs:documentation>Reserved</xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="privacy.hide_user">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows and POSIX Agents.**<br />
+Replace the user name (anywhere present) with SHA-1 hash of the user name (UTF-8 byte representation).<br />
+Acceptable values: `true`,`false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="privacy.hide_ip">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows and POSIX Agents.**<br />
+Replace the IP address (anywhere present) with SHA-1 hash of the IP address (UTF-8 byte representation). <br />
+Acceptable values: `true`,`false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.allowonlyonescanperday">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Linux and OS X Agent.**<br />
+If set, only one scan per day will be allowed by the agent.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.emulate_os">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**For Snow internal use only.** **Only applicable to the Unix Agent.**<br />
+This value will decide what operating system and hardware will be used.<br />
+It is the filename that is derived from this value that decides type of system.<br />
+All mock files are placed in a directory named mockfiles.<br />
+In that directory files named: mockfile_*emulated_os*_*operation* are placed and read instead of the corresponding operating system command.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                        <snowinternal>true</snowinternal>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.java_home">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If path to java can't be found or an incompatible version is set as default, this value can be used to identify a correct version.
+                         ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.shell">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional Element.
+Used as a solution to problems with the standard shell installed. Points to a shell.<br />
+> **Example:**<br/>
+> `/bin/bash`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.data_dir">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If specified, overrides the directory in which the agent will store data files, such as scan results and metering (when applicable).<br />
+Defaults to a sub directory 'data' from where the agent is run.<br />
+> **Note:**<br />
+> The agent must have read and write access to this directory.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.temp_dir">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If specified, overrides the directory where the agent will store temporary data files.<br />
+Defaults to system default temporary directory.<br />
+> **Note:**<br/>
+> The agent must have read and write access to this directory.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.log_dir">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If specified, overrides the default log directory where the agent will store log files.<br />
+Defaults to a sub directory 'data' from where the agent is run.<br />
+> **Note:**<br />
+> The agent must have read and write access to this directory.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http.ssl_verify">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If `false`, the agent will not verify that any certificate used to secure communication is issued by a trusted certificate authority (CA). <br />
+This setting is enabled by default and must be explicitly disabled if necessary.<br />
+Acceptable values: `true`, `false` <br/>
+Default: `true` <br />
+
+> **Caution:**<br />
+> Disabling this option reduces overall security.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http.ssl_capath">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Linux and macOS Agent.**<br />
+Must be specified to use SSL/TLS. <br />
+Specify the PEM file containing the Certificate or Certificate bundle. Equivalent to the `curl` flag `--cacert` <br />
+
+> **Example:**<br />
+> `/etc/ssl/certs/mycert.pem`
+                           ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http.timeout">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+The timout in seconds for requests to the server endpoint.<br/>
+Default: `15`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                        <siunit>s</siunit>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="log.append">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If true, the logfile will not be cleared upon a completed scan, i.e. it will be appended upon. This will cause subsequent snowpacks to contain log information from multiple scans. <br />
+Acceptable values: `true`, `false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.dpkg">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Linux Agent.** <br />
+Include information from the Debian package manager about installed software. <br />
+Acceptable values: `true`, `false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.jar">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows, macOS and Linux Agent** <br />
+Enable software scan by scanning the metadata found in Java Archive (JAR) files. <br />
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.rpm">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Linux Agent.**<br />
+Include information from the Red Hat package manager about installed software.<br />
+Acceptable values: `true`, `false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.ips">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Unix Agent.** <br />
+Include information from the Image Packaging System (IPS). Applicable to Solaris 11 and later. <br />
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.svr4">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Unix Agent.**<br />
+Include information from SVR4 packages. Applicable to Solaris 10 and previous versions. <br />
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.lpp">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Unix Agent.**<br />
+Include information from Licensed Program Products. Applicable to AIX systems. <br />
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.sd">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Unix Agent.**<br />
+Include information from Software Distributor. Applicable to HP-UX systems.<br />
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.running_processes">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Linux and Unix Agent.**<br/>
+Scans running processes and adds them to the software scanning result, as a file system scan would. If used with file system scan, there is no distinction made between the results. A program found running and in a file system scan will be the same.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <!--can we not do this?-->
+            <xs:enumeration value="software.scan.add_latency">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Defined in microseconds. When reading or processing large amounts of data/objects, <br />
+add some extra latency between the objects to prevent the system from spending too much resource on this process.<br />
+This might also be a good solution when scanning exceptionally fast drives, to keep the CPU usage down<br />
+Allowed values: n >= 0 <br />
+Default: `0`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                        <siunit>us</siunit>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+If disabled will override all software.scan.* settings<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.swidtags">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of swid tags<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of hardware, this will override any individual hardware.scan.* setting.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.device">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of installed device drivers<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.networkadapter">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of network adapters<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.userscan">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+If disabled will override: software.scan.environmentvariables, software.scan.fileshare, hardware.scan.printer<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.environmentvariables">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of environment variables<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.fileshare">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of network shares<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.printer">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of printers that are setup on the system<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.displayadapter">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of inistalled display adapter<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.expansionslot">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Legacy support<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.fonts">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of installed fonts<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+
+            <xs:enumeration value="software.scan.ignore_bind_mounts">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Linux Agent.**<br/>
+If true, the agent will attempt to find bind mounts and add these to the list of directories to be ignored<br/>
+Acceptable values: `true`, `false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="software.scan.ignore_autofs_mounts">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Linux and Unix Agent.**<br/>
+If true, the agent will attempt to find detect autofs mounts and add these to the list of directories to be ignored<br/>
+Acceptable values: `true`, `false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.keyboard">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of attached keyboard<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.logicaldisk">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of logical drives attached<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.loginuser">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of user login history<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.memory">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of memory<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.modem">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of attached modems<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.monitor">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of attached screen<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.mouse">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of attached mouse device<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.multimedia">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of installed media devices, i.e sound card.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.netclient">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of network clients or network services<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.netprotocol">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of NDIS protocols and CoNDIS stand-alone call managers<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.ntservice">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of services<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.odbc">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of ODBC data sources and related drivers<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.pci">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of pci devices<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.physicaldisk">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of attached physical disks<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="hardware.scan.port">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of COM and LPT ports on the computer<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="hardware.scan.processor">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of processor<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.scsi">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of SCSI devices<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.tapedrive">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of attached tape drives<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="hardware.scan.usb">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of usb devices<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.custominfo">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Currently "Custom reg keys" within the "default behaviour" concept.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="software.scan.virtualsoftwareinfo">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Disable or enable scanning of virtual software<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+            <xs:enumeration value="metering.is_enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+Enable or disable metering.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="send.max_scan_result_backlog_count">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Whenever a send failure occurs, the scan result is kept (locally) until the next send opportunity.<br/>
+This setting controls the maximum number of results, that can be kept around at any given time.<br/>
+When this limit is reached, the oldest result is deleted until the number of scan results are within the allowed limit.<br/>
+Acceptable values: positive integers <br />
+Default: `90`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="powershell.enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+If true, Powershell scanning scripts will be executed.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.powershell_timeout">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+The time in milliseconds the agent wait for all powershell scripts to finish. Note, this is for the whole session not individual scripts.<br/>
+Acceptable values: positive integers above `300000` (5 minutes)<br/>
+Default: `300000` (5 minutes)
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                        <siunit>ms</siunit>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="powershell.encryption_key">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**DEPRECATED - Only applicable to the Windows Agent 5 and 6.**<br/>
+Custom encryption key for executing .snow-ps1 PowerShell scripts.<br/>
+Must be a 64-symbol uppercase hex-string. I.e. 525CE16E463842F020E516CF9EE32D53ACE8BB1AEEDC961A0A3725EFD9CCE2DD
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http.poll_interval">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+The interval in seconds between heartbeats.<br/>
+A heartbeat is a check, to see if there are any pending commands (i.e. agent updates) to be carried out at this moment.<br/>
+Acceptable values: The value must be between `600` (10 minutes) and `259200` (3 days). Otherwise the default value of `5400` (90 minutes) is used.<br/>
+Default:  `5400`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                        <siunit>s</siunit>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http.poll_variance">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+The variance in seconds for heartbeats.<br/>
+The variance control how many seconds off the interval is allowed per heartbeat.<br/>
+Greater variance means more evenly distributed load.<br/>
+Acceptable values: The value must be between '1' second and the value used in `http.poll.interval`. Otherwise the default value of `1800` (30 minutes) is used.<br/>
+Default: `1800`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                        <siunit>s</siunit>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="wmi.poll_interval">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+The interval that Windows Management Instrumentation (WMI) uses to poll the data provider for intrinsic events.<br/>
+A higher poll interval may be useful in Virtual Desktop Infrastructure environments.<br/>
+See https://msdn.microsoft.com/en-us/library/aa394527(v=vs.85).aspx for more information.<br/>
+Acceptable values: positive integers <br />
+Default: `15`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                        <siunit>s</siunit>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="env.is_virtual_desktop_infrastructure">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+If the agent is running in a virtual desktop infrastructure this setting should be set to true.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="snowpack.encryption_fingerprint">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Oprional Element.<br/>
+The fingerprint of the encryption key to use for encrypting Snowpacks.<br />
+Default: `None`
+> **Note:**<br/>
+> This requires to be the `*.cryptkey` files placed according to the `snowpack.encryption_path` setting.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="snowpack.encryption_path">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Oprional Element.<br/>
+The path to where the encryption keys are stored.<br/>
+If not present, the path to the agent itself will be used.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="saas.edge.enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Set this to:<br/>
+
+  - **false** to uninstall and prevent installation the Edge browser extension.<br/>
+  - **enable** to enable the extension when installed outside the agent<br/>
+  - **true** to allow the agent to install the Edge browser extension.<br/>
+
+Acceptable values: `true`, `enable`, `false`<br/>
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="saas.chrome.enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Set this to:<br/>
+
+  - **false** to uninstall and prevent installation the Chrome browser extension.<br/>
+  - **enable** to enable the extension when installed outside the agent<br/>
+  - **true** to allow the agent to install the Chrome browser extension.<br/>
+
+Acceptable values: `true`, `enable`, `false`<br/>
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="saas.chrome.enterprise.installation">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the macOS Agent.**<br/>
+Set this to **false** to use alternative installation method of the Chrome browser extension,<br/>
+using a preferences file. See https://developer.chrome.com/apps/external_extensions<br/>
+Acceptable values: `true`, `false`<br/>
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="saas.firefox.enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Set this to:<br/>
+
+  - **false** to uninstall and prevent installation the Firefox browser extension.<br/>
+  - **enable** to enable the extension when installed outside the agent<br/>
+  - **true** to allow the agent to install the Firefox browser extension.<br/>
+
+Acceptable values: `true`, `enable`, `false`<br/>
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="legacy_webmetering.is_enabled">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+If `true`, the legacy web metering feature is enabled.<br/>
+Acceptable values: `true`, `false`<br/>
+Default: `false`
+
+> **Caution:**<br/>
+>
+> This feature enables an uncertified Windows Kernel-Mode driver.
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="disable_all_updates">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If `true`, the agent will not perform any update operations or handshakes, not even when run manual on the commandline.
+
+- no program updates
+- no configuration updates
+- no SaaS rule updates
+- etc.
+
+Acceptable values: `true`, `false`<br/>
+Default: `false`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="reserved_end">
+                <!-- Must keep this last of all enumerations! -->
+                <xs:annotation>
+                    <xs:documentation>Reserved</xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="SystemSetting">
+        <xs:attribute name="key" type="SystemSettingKey" >
+            <xs:annotation>
+                <xs:documentation>
+                    <![CDATA[
+The name of a system setting to set to some value. Acceptable values depend on the type of setting. See remarks about each setting for more information.
+                    ]]>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="NotEmptyString" name="value">
+            <xs:annotation>
+                <xs:documentation>
+                    <![CDATA[
+The value associated with the setting. Note that the format of this value will vary depending on the type of setting. See remarks about each setting for more information.
+                    ]]>
+                </xs:documentation>
+                <xs:appinfo>
+                    <clrtype>string</clrtype>
+                </xs:appinfo>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="ScheduleTask">
+        <xs:annotation>
+            <xs:documentation>The task that will be run by the agent.</xs:documentation>
+        </xs:annotation>
+        <xs:all minOccurs="0">
+            <xs:element name="Action">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+Action to be performed
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+						<xs:enumeration value="reserved">
+							<xs:annotation>
+								<xs:documentation>Reserved</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+                        <xs:enumeration value="scan">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Required element.</b><br/>
+Performs a scan of the machine and sends the result the to server.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Occurance" type="ScheduleTaskOccurance" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:unique name="DayOfWeek">
+                    <xs:selector xpath="child::Weekly"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+                <xs:unique name="DayOfMonth">
+                    <xs:selector xpath="child::Monthly"/>
+                    <xs:field xpath="."/>
+                </xs:unique>
+            </xs:element>
+            <!--Only applicable to daily, weekly and monthly scan schedule-->
+            <xs:element name="TimeOfDay" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+For backwards compatibility, the format is very flexible. Any string containing two digits followed by a delimiter and two more digits is accepted.<br />
+Scheduling works on a resolution of minutes.<br/>
+
+> **Examples:**<br/>
+>
+> - `09:10`<br/>
+> - `09:10:30`<br/>
+> - `PT09H10M`<br/>
+>
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="5" />
+                        <xs:pattern value="\D{0,2}([0-1]?[0-9]|2[0-3])\D+[0-5][0-9].{0,4}" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Randomize" type="xs:nonNegativeInteger" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element. **Only applicable to daily, weekly and monthly schedule types.**<br/>
+The allowed maximum number of minutes offset from time of day when a scan should occur on schedule.<br/>
+A grater value can help spread out the load on server infrastructure as it is unlikey that many agents will then report back simultaneously.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="ScheduleTaskOccurance">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+How often to stage a certain task.
+              ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence maxOccurs="1">
+            <xs:element name="AtStart" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+Will stage task at start of Agent (service init).<br />
+Acceptable values: `true`,`false`
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            <xs:complexType>
+                <xs:simpleContent>
+                    <xs:extension base="xs:boolean">
+                    </xs:extension>
+                </xs:simpleContent>
+            </xs:complexType>
+            </xs:element>
+            <xs:element name="Daily" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+Do the action on a daily basis.<br />
+Acceptable values: `true`,`false`
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Weekly" type="DayOfWeek" minOccurs="0" maxOccurs="7">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+Do the action on a weekly basis.<br/>
+Acceptable values:
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Monthly" type="xs:int" minOccurs="0" maxOccurs="31">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+The day of month the task will be executed.<br/>
+If the day of the month is outside the range of that month, run action the last day in that month.<br/>
+For example in February this would become the 28th or 29th.<br/>
+Example: 30
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="DayOfWeek">
+        <xs:annotation>
+            <xs:documentation>Type that displays days of the week.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="monday"/>
+            <xs:enumeration value="tuesday"/>
+            <xs:enumeration value="wednesday"/>
+            <xs:enumeration value="thursday"/>
+            <xs:enumeration value="friday"/>
+            <xs:enumeration value="saturday"/>
+            <xs:enumeration value="sunday"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="Span">
+        <xs:sequence>
+            <xs:element name="StartTime" type="xs:duration" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+Example: PT09H10 All components (PThhHmmM) are required!
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndTime" type="xs:duration" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+Example: PT09H10 All components (PThhHmmM) are required!
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MeterOccurance">
+        <xs:sequence>
+            <xs:element name="Weekday" type="DayOfWeek" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Optional element.<br/>
+Specify day(s) that metering will occur on.
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Path">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:boolean" name="wildcard" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <![CDATA[
+Optional element.<br/>
+Tells the client that this is a wildcard and should be treated like that.<br/>
+Accepted values: `true`, `false`
+                            ]]>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="RegistryQuery">
+        <xs:annotation>
+            <xs:documentation>
+                <![CDATA[
+Represents a registry query (Windows specific).
+The query will be used to search for a set of values that will be included as custom registry information in the scan result.
+            ]]>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Key">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b><br/>
+The sub key (and registry hive) to scan.<br/>
+Example: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="NotEmptyString">
+                            <xs:attribute name="recursive" type="xs:boolean" use="optional">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        <![CDATA[
+Optional element. If used values: true/false<br/>
+Specifies whether to perform a recursive search starting at the sub key specified.<br/>
+Acceptable values: `true`, `false`
+
+> **Note:**<br />
+> It may take considerable time to perform a recursive scan, if the starting point is a key with many items underneath it. Use recursive queries sparsely.
+
+                                        ]]>
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:attribute>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Value" type="NotEmptyString" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+<b>Required element.</b> May be specified multiple times.<br/>
+Each value represents the name of a value and if found at any location during query will result in that value being included in the scan result.
+
+> **Example:**<br/>
+> `Version`
+                        ]]>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
