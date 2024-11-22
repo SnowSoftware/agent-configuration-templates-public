@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 This project only uses dates (yyyy-mm-dd) to track changes.
 
+## 2024-11-22
+
+### Changed
+
+- `snowagent.config.xsd` - added the system setting `process_affinity`, introduced with Snow Inventory Agent for Windows 7.2.0 .
+
 ## 2024-09-13
 
 ### Added
