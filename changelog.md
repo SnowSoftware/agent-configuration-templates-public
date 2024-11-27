@@ -11,7 +11,7 @@ This project only uses dates (yyyy-mm-dd) to track changes.
 
 - `snowagent.config.xsd` - added the system setting `process_affinity`, introduced with Snow Inventory Agent for Windows 7.2.0 .
 
-## 2024-09-13
+## 2024-11-19
 
 ### Added
 
