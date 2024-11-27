@@ -2225,7 +2225,7 @@ Default: `false`
                     <xs:documentation>
                         <![CDATA[
 **Only applicable to the Windows Agent 7.2.0 and later.**<br/>
-Use this setting only, when necessary.<br/>
+Use this setting only when necessary.<br/>
 
 If you need to control which or how many processors/cores will be bound to the agent process and subprocesses by the operating system, you can use this setting to define the process affinity mask. The Setting accepts a decimal number, representing a bit array, where the first bit means the first processor/core, the second the second, etc. . For more information refer to <a href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask">https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask</a>.<br/>
 
