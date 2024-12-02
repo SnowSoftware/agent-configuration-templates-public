@@ -2220,6 +2220,47 @@ Default: `false`
                     </xs:appinfo>
                 </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="process_affinity">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent 7.2.0 and later.**<br/>
+Use this setting only when necessary.<br/>
+
+If you need to control which or how many processors/cores will be bound to the agent process and subprocesses by the operating system, you can use this setting to define the process affinity mask. The Setting accepts a decimal number, representing a bit array, where the first bit means the first processor/core, the second the second, etc. . For more information refer to <a href="https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask">https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask</a>.<br/>
+
+The Agent is not processor group aware, which means only up to 64 affinity bits can be specified.<br/>
+If an invalid value is provided, the agent will be executed with the default setting and process affinity will not applied.<br/>
+
+Acceptable values: 1 <= n <= 2<sup>64</sup> <br/>
+Default value: empty<br/>
+
+> **Examples:**<br/>
+>
+>   The agent should only run on the first core:<br/>
+>   Bit array = `1` <br/>
+>   Decimal value = `1` <br/>
+>
+>   The agent should only run on the first and second core:<br/>
+>   Bit array = `11` <br/>
+>   Decimal value = `3` <br/>
+>
+>   The agent should only run on the third core:<br/>
+>   Bit array = `100` <br/>
+>   Decimal value = `4` <br/>
+>
+>   The agent should only run on the third and seventh core:<br/>
+>   Bit array = `1000100` <br/>
+>   Decimal value = `68` <br/>
+>
+
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="reserved_end">
                 <!-- Must keep this last of all enumerations! -->
                 <xs:annotation>
@@ -2229,6 +2270,7 @@ Default: `false`
                     </xs:appinfo>
                 </xs:annotation>
             </xs:enumeration>
+
         </xs:restriction>
     </xs:simpleType>
 
