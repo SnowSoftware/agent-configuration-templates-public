@@ -290,16 +290,6 @@ If software is to be included it must match one of the file types specified.<br/
                                     </xs:element>
 
                                 </xs:sequence>
-                                <xs:attribute name="enabled" type="xs:boolean" default="true">
-                                    <xs:annotation>
-                                        <xs:documentation>
-                                            <![CDATA[
-Acceptable values: `true`, `false`<br/>
-Default: `true`
-                                            ]]>
-                                        </xs:documentation>
-                                    </xs:annotation>
-                                </xs:attribute>
                             </xs:complexType>
                             <xs:unique name="IncludeCriteria_FileSystem">
                                 <xs:selector xpath="child::Filesystem"/>
