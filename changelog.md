@@ -17,6 +17,12 @@ This project only uses dates (yyyy-mm-dd) to track changes.
 
 - Updated default SIOS configuration for Windows, Linux and Unix .
 
+## 2025-09-23
+
+### Changed
+
+- `./linux/snowagent.config` - added Agent default install directory to the scan
+
 ## 2024-11-22
 
 ### Changed
