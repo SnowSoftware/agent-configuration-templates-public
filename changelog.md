@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 This project only uses dates (yyyy-mm-dd) to track changes.
 
+## 2025-09-25
+
+### Added
+
+- Added default SIOMS configuration for Windows, Linux and Unix .
+- Added default SIJS configuration for Windows, Linux and Unix .
+- Added default SIOHWS configuration for Windows, Linux and Unix .
+
+### Changed
+
+- Updated default SIOS configuration for Windows, Linux and Unix .
+
 ## 2024-11-22
 
 ### Changed
