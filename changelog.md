@@ -7,7 +7,9 @@ This project only uses dates (yyyy-mm-dd) to track changes.
 
 ## 2025-09-23
 
-- Linux config now includes the Agent install directory so it is included in the scan result.
+### Changed
+
+- `./linux/snowagent.config` - added Agent default install directory to the scan
 
 ## 2024-11-22
 
