@@ -610,6 +610,58 @@ Deafault: `true`
                                 </xs:sequence>
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="CommonOsGroup" type="NotEmptyString" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Optional element. Applicable to Linux and Unix.</b><br/>
+Snow Inventory Oracle Scanner uses the DBA group name dba by default. To make the scanner use a custom DBA group name instead, use this option.<br/>
+Default: dba
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="FileSystemSecurityModule" type="SiosFileSystemSecurityModule" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Optional element. Applicable to Linux and Unix.</b><br/>
+Snow Inventory Oracle Scanner creates a temporary working directory that it uses during the scan.<br/>
+If your company has, for example, a custom file system security setup that changes the CWD (Current Working Directory) on OS user logon, the user will be navigated out of the temporary directory and the scan will fail to execute, if you are using the default configuration of the scanner.<br/>
+To be able to run the scanner in combination with a security policy as described above, use the CWD option.<br/>
+Acceptable values: DEFAULT, CWD<br/>
+Default: DEFAULT
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="UseMixedCredentials" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Optional element. This configuration option will have effect only if the DefaultInstanceCredentials element is configured.</b><br/>
+To use default instance credentials in environments with both container and non-container databases, you must enable this option.<br/>
+Since dedicated database users used for scanning must be created as common users for container databases, with a C## prefix, and as regular users for non-container databases, without a C## prefix, this will allow the user defined under the default instance credentials to work on both.<br/>
+When enabled, if the scanner cannot connect to the specific database with the configured user, it will try again by adding or removing the C## prefix from the username.<br/>
+For example, if the DefaultInstanceCredentials element has been configured with the common user C##SNOW and the scanner does not succeed to connect to a database, it will try again with the user SNOW, and vice versa.<br/>
+Acceptable values: true, false<br/>
+Default: false
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="EnableEbsScanning" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Optional element.</b><br/>
+This configuration option determines whether the Oracle scanner will inventory E-Business Suite data or not.
+Acceptable values: true, false<br/>
+Default: true
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
                     </xs:sequence>
                     <xs:attribute name="enabled" type="xs:boolean">
                         <xs:annotation>
@@ -633,6 +685,183 @@ Acceptable values: `true`, `false`
                     <xs:selector xpath="child::Include/child::Instance/child::SID | child::Exclude/child::Instance/child::SID"/>
                     <xs:field xpath="."/>
                 </xs:unique>
+            </xs:element>
+
+            <xs:element name="SnowInventoryJavaScanner" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Information used in the SIJS component for Java inventory.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="SecurityLevel" type="SijsSecurityLevel" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Optional element.</b><br/>
+Configures the security level of the scanner if it is executed with elevated permissions, that is, as Administrator (Windows) or root (Linux, Unix, and macOS).<br/>
+Acceptable values: LOW, MEDIUM, HIGH<br/>
+Default: HIGH
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="ImpersonationUser" type="NotEmptyString" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Optional element. Applicable to Linux, Unix and MacOS.</b><br/>
+The impersonation user that will be used if MEDIUM security level is configured for SIJS.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="JavaMsiIgnore" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Specifies the filenames that should be ignored when detecting MSI Enterprise JRE installer
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Filename" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element. May be specified multiple times.<br/>
+Filenames that should be ignored when detecting MSI Enterprise JRE installer. Wildcard (*) character can be used <br/>
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="enabled" type="xs:boolean" default="false">
+                        <xs:annotation>
+                            <xs:documentation>
+                                <![CDATA[Acceptable values: `true`, `false`]]>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="SnowInventoryOracleHardwareScanner" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Information used in the SIOHWS component.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="enabled" type="xs:boolean" default="false">
+                        <xs:annotation>
+                            <xs:documentation>
+                                <![CDATA[Acceptable values: `true`, `false`]]>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="SnowInventoryOracleMiddlewareScanner" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Information used in the SIOMS component for Oracle Middleware inventory.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="UseDataOptimization" type="xs:boolean" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+<b>Optional element.</b><br/>
+By enabling this option, only the top-level Middleware components will be inventoried, ignoring all the child Middleware components. This will optimize the data volume, which can be useful when dealing with big estates.<br/>
+Acceptable values: true, false<br/>
+Default: false
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="Anonymization" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    <![CDATA[
+Optional element.<br/>
+Use the Anonymization element to configure the data anonymization for Oracle Middleware data.
+                                    ]]>
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="File" minOccurs="0" maxOccurs="unbounded">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                <![CDATA[
+Optional element. May be specified multiple times.<br/>
+List of files for anonymization.<br/>
+                                                ]]>
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="Xpath" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                                    <xs:annotation>
+                                                        <xs:documentation>
+                                                            <![CDATA[
+Optional element. May be specified multiple times.<br/>
+List of xpaths used for anonymization of the given file.<br/>
+                                                ]]>
+                                                        </xs:documentation>
+                                                    </xs:annotation>
+                                                </xs:element>
+                                                <xs:element name="Regex" type="NotEmptyString" minOccurs="0" maxOccurs="unbounded">
+                                                    <xs:annotation>
+                                                        <xs:documentation>
+                                                            <![CDATA[
+Optional element. May be specified multiple times.<br/>
+List of regexes used for anonymization of the given file.<br/>
+                                                ]]>
+                                                        </xs:documentation>
+                                                    </xs:annotation>
+                                                </xs:element>
+                                            </xs:sequence>
+                                            <xs:attribute name="filename" type="NotEmptyString">
+                                                <xs:annotation>
+                                                    <xs:documentation>
+                                                        <![CDATA[
+Filename of the file that needs to be anonymized<br/>
+Wildcard (*) character can be used
+                                            ]]>
+                                                    </xs:documentation>
+                                                </xs:annotation>
+                                            </xs:attribute>
+                                        </xs:complexType>
+                                        <xs:unique name="File_Xpath">
+                                            <xs:selector xpath="child::Xpath"/>
+                                            <xs:field xpath="."/>
+                                        </xs:unique>
+                                        <xs:unique name="File_Regex">
+                                            <xs:selector xpath="child::Regex"/>
+                                            <xs:field xpath="."/>
+                                        </xs:unique>
+                                    </xs:element>
+                                </xs:sequence>
+                            </xs:complexType>
+                            <xs:unique name="Anonymization_File">
+                                <xs:selector xpath="child::File"/>
+                                <xs:field xpath="."/>
+                            </xs:unique>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="enabled" type="xs:boolean" default="false">
+                        <xs:annotation>
+                            <xs:documentation>
+                                <![CDATA[Acceptable values: `true`, `false`]]>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
             </xs:element>
 
             <xs:element name="SystemSettings" minOccurs="0" maxOccurs="1">
@@ -1590,6 +1819,39 @@ Default: `false`
                 </xs:annotation>
             </xs:enumeration>
 
+			<xs:enumeration value="software.scan.exclude_on_demand">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows and macOS Agent.**<br/>
+If true, the agent will ignore files and folders it detects beeing 'on demand', such as files in OneDrive, so as not to trigger a download of the file.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+			<xs:enumeration value="software.scan.exclude_projected_fs">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+**Only applicable to the Windows Agent.**<br/>
+If true, the agent will ignore folders it detects to be a projected file system, so as not to trigger a download of the folder.<br/>
+Acceptable values: `true`, `false` <br />
+Default: `true`
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+
+
             <xs:enumeration value="hardware.scan.keyboard">
                 <xs:annotation>
                     <xs:documentation>
@@ -2098,7 +2360,22 @@ If not present, the path to the agent itself will be used.
                     </xs:appinfo>
                 </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="saas.edge.enabled">
+            <xs:enumeration value="saas.all_managed">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+Set this to:<br/>
+  - **false** to let the Agent manage browser extension installations.<br/>
+  - **true** to manage installation of browser extensions and all related configuration/policies externally from the Agent.<br/>
+Acceptable values: true, false<br/>
+Default value: false
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>bool</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration><xs:enumeration value="saas.edge.enabled">
                 <xs:annotation>
                     <xs:documentation>
                         <![CDATA[
@@ -2171,6 +2448,34 @@ Default: `true`
                     </xs:appinfo>
                 </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="saas.allow_list.force_updates">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+If true, the agent will download the SaaS allow list, even if disable_all_updates is set.<br/>
+Acceptable values: true, false <br/>
+Default value: false
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>string</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="saas.allow_list.update_interval">
+                <xs:annotation>
+                    <xs:documentation>
+                        <![CDATA[
+The interval, in minutes, between updates of the SaaS allow list.<br/>
+Acceptable values: positive integers<br/>
+Default value: 2880 (48 hours)
+                        ]]>
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <clrtype>int</clrtype>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="legacy_webmetering.is_enabled">
                 <xs:annotation>
                     <xs:documentation>
@@ -2200,6 +2505,8 @@ If `true`, the agent will not perform any update operations or handshakes, not e
 - no configuration updates
 - no SaaS rule updates
 - etc.
+
+**Note**: If `saas.allow_list.force_updates` is set to `true`, the agent will still download the SaaS allow list, overriding this setting.
 
 Acceptable values: `true`, `false`<br/>
 Default: `false`
@@ -2572,4 +2879,19 @@ Each value represents the name of a value and if found at any location during qu
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:simpleType name="SiosFileSystemSecurityModule">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="DEFAULT"/>
+            <xs:enumeration value="CWD"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SijsSecurityLevel">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LOW"/>
+            <xs:enumeration value="MEDIUM"/>
+            <xs:enumeration value="HIGH"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

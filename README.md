@@ -5,21 +5,21 @@ Here you can find the latest templates for the Snow Inventory Agent.
 > [!WARNING]  
 > An incorrect configuration will result in the agent not working.
 >
-> The templates are only templates. They are not “best practice” configurations, and they are not meant to work in any and every scenario.
+> The templates are only templates. They are not “best practice” configurations, and they are not meant to work in any and every scenario.  
 
 > [!IMPORTANT]  
 > It is mandatory to have adequate knowledge of the contents of the following documentation before using the configuration file templates:  
-> [Snow Docs: Compatibility Matrix - Snow Inventory Agents](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/compatibility-matrix/)  
-> [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/configuration-of-snow-inventory-agents/agent-configuration-file/)  
-> [Snow Docs: Configuration Reference](https://docs.snowsoftware.com/documentation-resources/snow-inventory/configuration-doc.html)  
-> [Snow Docs: Snow Inventory Agent for Windows](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-windows/)  
-> [Snow Docs: Snow Inventory Agent for Linux](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-linux/)  
-> [Snow Docs: Snow inventory Agent for macOs](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-macos/)  
-> [Snow Docs: Snow Inventory Agent for Unix](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-unix/)  
-> [Snow Docs: Snow Inventory Oracle Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-scanner/)  
-> [Snow Docs: System Requirements - Snow Inventory Agents and Oracle Scanners](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/system-requirements/)  
-> [Snow Docs: About Package Builder](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/system-requirements/)  
-> [Snow Globe: Inventory Agent Exclusions](https://community.snowsoftware.com/s/article/Inventory-Agent-Exclusions)  
+> [Flexera Docs: Compatibility Matrix - Snow Inventory Agents](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/compatibility-matrix/)  
+> [Flexera Docs: Configuration of Snow Inventory Agents](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/configuration-of-snow-inventory-agents/agent-configuration-file/)  
+> [Flexera Docs: Agent Configuration Reference](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/agent-configuration-file/configuration-reference)  
+> [Flexera Docs: Snow Inventory Agent for Windows](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-windows/)  
+> [Flexera Docs: Snow Inventory Agent for Linux](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-linux/)  
+> [Flexera Docs: Snow inventory Agent for macOs](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-macos/)  
+> [Flexera Docs: Snow Inventory Agent for Unix](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-agent-for-unix/)  
+> [Flexera Docs: Snow Inventory Oracle Scanner](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-scanner/)  
+> [Flexera Docs: System Requirements - Snow Inventory Agents and Oracle Scanners](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/system-requirements/)  
+> [Flexera Docs: About Package Builder](https://docs-snow.flexera.com/snow-atlas/user-documentation/package-builder/)  
+> [Flexera Community: Snow Inventory Agent Exclusions](https://community.flexera.com/s/article/Inventory-Agent-Exclusions)  
 
 ## Template files
 
@@ -30,19 +30,19 @@ Here you can find the latest templates for the Snow Inventory Agent.
 
 ## How to use these templates
 
-1. Make sure you have an adequate understanding of the agent configuration and information about the environment the agent will be used in. See the list of mandatory documentation above. If unsure, use the [Snow Inventory Admin Console](https://docs.snowsoftware.io/other-snow-products/snow-inventory-server/snow-inventory-server-admin-console/) to generate the agent configuration and then export it, or reach out to Snow Support via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub). Note that the Snow Inventory Admin Console comes with Snow Inventory and is only available for on-premises customers.  
+1. Make sure you have an adequate understanding of the agent configuration and information about the environment the agent will be used in. See the list of mandatory documentation above. If unsure, use the [Snow Inventory Admin Console](https://docs-snow.flexera.com/other-snow-products/snow-inventory-server/snow-inventory-server-admin-console/) to generate the agent configuration and then export it, or reach out to Snow Support via [Flexera Support Hub](https://community.flexera.com/s/support-hub). Note that the Snow Inventory Admin Console comes with Snow Inventory and is only available for on-premises customers.  
 1. Enter all relevant information into the configuration file. Note that if you need to generate a configuration with passwords, you must use the Snow Inventory Admin Console or reach out to Snow Support.  
-1. Add comments, where appropriate, to disable a section of the configuration file. Settings not defined in the configuration file will result in a default being applied. Defaults are described in [Snow Docs: Configuration of Snow Inventory Agents](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/configuration-of-snow-inventory-agents/agent-configuration-file/) or the [Default behavior](#default-behavior) section of this page.  
+1. Add comments, where appropriate, to disable a section of the configuration file. Settings not defined in the configuration file will result in a default being applied. Defaults are described in [Flexera Docs: Configuration of Snow Inventory Agents](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/configuration-of-snow-inventory-agents/agent-configuration-file/) or the [Default behavior](#default-behavior) section of this page.  
 1. Remove any unused or empty sections from the configuration file.  
 1. Validate the configuration file against the schema file provided in the [./schemas/] folder in this repository. Read more about using it in the [Schema validation](#schema-validation) chapter.
 
-When the configuration file is ready, you can use it to create agent installation packages, either via [Package Builder on Snow Atlas](https://docs.snowsoftware.io/snow-atlas/user-documentation/package-builder/) or via [Snow Support Hub](https://community.snowsoftware.com/s/support-hub).
+When the configuration file is ready, you can use it to create agent installation packages, either via [Package Builder on Snow Atlas](https://docs-snow.flexera.com/snow-atlas/user-documentation/package-builder/) or via [Snow Support Hub](https://community.flexera.com/s/support-hub).
 
 > [!Note]  
 >
 > - XML does not allow nested comments.  
 > - XML is case-sensitive. For example, `<Oracle>` is **NOT** the same as `<oracle>`.  
-> - The configuration for [Snow Inventory Oracle Middleware Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-middleware-scanner/), [Snow Inventory Oracle Hardware Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-hardware-scanner/) and [Snow Inventory Java Scanner](https://docs.snowsoftware.io/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-java-scanner/) is not part of the Snow Inventory Agent configuration file.
+> - The configuration for [Snow Inventory Oracle Middleware Scanner](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-middleware-scanner/), [Snow Inventory Oracle Hardware Scanner](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-oracle-hardware-scanner/) and [Snow Inventory Java Scanner](https://docs-snow.flexera.com/other-snow-products/snow-inventory-agents-and-oracle-scanners/snow-inventory-java-scanner/) is not part of the Snow Inventory Agent configuration file.
 > - Test the configuration before deploying it in the infrastructure. Every environment is different.
 
 ## Schema validation
@@ -132,6 +132,9 @@ and you would need to keep them updated manually.
     <Setting key="powershell.encryption_key" value="" />
     <Setting key="privacy.hide_user" value="false" />
     <Setting key="privacy.hide_ip" value="false" />
+    <Setting key="saas.allow_list.force_updates" value="false" />
+    <Setting key="saas.allow_list.update_interval" value="2880" />
+    <Setting key="saas.all_managed" value="false" />
     <Setting key="saas.edge.enabled" value="true" />
     <Setting key="saas.chrome.enabled" value="true" />
     <Setting key="saas.firefox.enabled" value="true" />
@@ -140,6 +143,8 @@ and you would need to keep them updated manually.
     <Setting key="software.scan.custominfo" value="true" />
     <Setting key="software.scan.enabled" value="true" />
     <Setting key="software.scan.environmentvariables" value="true" />
+    <Setting key="software.scan.exclude_on_demand" value="true" />
+    <Setting key="software.scan.exclude_projected_fs" value="true" />
     <Setting key="software.scan.fileshare" value="true" />
     <Setting key="software.scan.fonts" value="true" />
     <Setting key="software.scan.jar" value="true" />
@@ -259,6 +264,9 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
     <Setting key="log.append" value="false" />
     <Setting key="privacy.hide_ip" value="false" />
     <Setting key="privacy.hide_user" value="false" />
+    <Setting key="saas.allow_list.force_updates" value="false" />
+    <Setting key="saas.allow_list.update_interval" value="2880" />
+    <Setting key="saas.all_managed" value="false" />
     <Setting key="saas.edge.enabled" value="true" />
     <Setting key="saas.chrome.enabled" value="true" />
     <Setting key="saas.chrome.enterprise.installation" value="true" />
@@ -266,6 +274,7 @@ To get the latest list of excluded file systems, check [Snow Docs: Snow Inventor
     <Setting key="send.max_scan_result_backlog_count" value="90"/>
     <Setting key="software.scan.add_latency" value="0" />
     <Setting key="software.scan.jar" value="true" />
+    <Setting key="software.scan.exclude_on_demand" value="true" />
 </SystemSettings>
 ```
 
@@ -381,4 +390,4 @@ Find us on [www.flexera.com](https://www.flexera.com)
 
 If you want to contribute or suggest a change, create an idea on our [ideas portal](https://ideas.snowsoftware.com).  
 
-&copy; Flexera 2023 - 2024, All rights reserved.
+&copy; Flexera 2023 - 2025, All rights reserved.
