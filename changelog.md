@@ -5,12 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 This project only uses dates (yyyy-mm-dd) to track changes.
 
+## 2026-01-14
+
+### Changed
+
+- `snowagent.config.xsd`
+  - added the system settings `software.scan.exclude_on_demand` and `software.scan.exclude_projected_fs`, introduced with Snow Inventory Agent for Windows 7.5.0 and Snow Inventory Agent for MacOs 7.3.0.
+
 ## 2025-10-06
 
 ### Changed
 
 - `snowagent.config.xsd`
-  - added the system settings `software.scan.exclude_on_demand` and `software.scan.exclude_projected_fs`, introduced with Snow Inventory Agent for Windows 7.4.0 and Snow Inventory Agent for MacOs 7.x.x.
   - added the Oracle settings `CommonOsGroup`, `FileSystemSecurityModule`, `UseMixedCredentials`, `EnableEbsScanning` introduced with Snow Inventory Agent for Windows 7.4.0, Snow Inventory Agent for Linux 7.4.0 and Snow Inventory Agent for Unix 8.3.0
   - added the Oracle settings `CommonOsGroup`, `FileSystemSecurityModule`, `UseMixedCredentials`, `EnableEbsScanning`, introduced with Snow Inventory Agent for Windows 7.4.0, Snow Inventory Agent for Linux 7.4.0 and Snow Inventory Agent for Unix 8.3.0
   - added the settings `SnowInventoryJavascanner`, `SnowInventoryOracleHardwareScanner` and `SnowInventoryOracleMiddlewareScanner`, introduced with Snow Inventory Agent for Windows 7.4.0, Snow Inventory Agent for Linux 7.4.0 and Snow Inventory Agent for Unix 8.3.0
