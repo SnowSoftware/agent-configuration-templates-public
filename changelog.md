@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
 This project only uses dates (yyyy-mm-dd) to track changes.
 
+## 2026-09-02
+
+### Changed
+
+- `./windows/snowagent.config`
+  - Updated Snow Invenory Oracle Scanner configuration example. EnableEbsScanning default value is now set to false.
+- `./linux/snowagent.config`
+  - Updated Snow Invenory Oracle Scanner configuration example. EnableEbsScanning default value is now set to false.
+- `./unix/snowagent.config`
+  - Updated Snow Invenory Oracle Scanner configuration example. EnableEbsScanning default value is now set to false.
+
 ## 2026-01-14
 
 ### Changed
