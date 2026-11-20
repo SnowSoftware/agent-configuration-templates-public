@@ -7,7 +7,7 @@ PERIODICITY='0 21 * * *'
 # Sleep up to 60 minutes before running the agent
 RANDOMIZATION=60
 
-echo "Installing cron schedule for user `echo ${USER}`"
+echo "Installing cron schedule for user ${USER}"
 /opt/snow/snowcron -u ${USER} -x ${RANDOMIZATION} "${PERIODICITY}" /opt/snow/snowagent
 
 echo "Changing ownership of snow Dir to user `echo ${USER}`"
