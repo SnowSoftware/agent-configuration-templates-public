@@ -10,7 +10,7 @@ RANDOMIZATION=60
 echo "Installing cron schedule for user ${USER}"
 /opt/snow/snowcron -u ${USER} -x ${RANDOMIZATION} "${PERIODICITY}" /opt/snow/snowagent
 
-echo "Changing ownership of snow Dir to user `echo ${USER}`"
+echo "Changing ownership of snow directory to user ${USER}"
 chown -R ${USER}:${USER} /opt/snow
 
 # Uncomment the next four lines to optionally activate and check Linux Capabilities on the agent
